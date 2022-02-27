@@ -34,6 +34,7 @@ public class RobotContainer {
 
   public static WPI_TalonSRX[] leftDriveMotors;
   public static WPI_TalonSRX[] rightDriveMotors;
+  
 
   public static MotorControllerGroup leftDriveController;
   public static MotorControllerGroup rightDriveController;
@@ -55,18 +56,20 @@ public class RobotContainer {
     leftDriveMotors = new WPI_TalonSRX[Constants.leftDriveMotorIDs.length];
     rightDriveMotors = new WPI_TalonSRX[Constants.rightDriveMotorIDs.length];
     
-    for(int i = 0; i < Constants.leftDriveMotorIDs.length; i++)
+    
+    for(int i = 0; i < Constants.leftDriveMotorIDs.length; i++) // left side
     {
       leftDriveMotors[i] = new WPI_TalonSRX(Constants.leftDriveMotorIDs[i]);
       leftDriveMotors[i].setInverted(Constants.leftDriveMotorInverts[i]);
     }
 
-    for(int i = 0; i < Constants.rightDriveMotorIDs.length; i++)
+    for(int i = 0; i < Constants.rightDriveMotorIDs.length; i++) // right side
     {
       rightDriveMotors[i] = new WPI_TalonSRX(Constants.rightDriveMotorIDs[i]);
       rightDriveMotors[i].setInverted(Constants.rightDriveMotorInverts[i]);
     }
     
+
     leftDriveController = new MotorControllerGroup(leftDriveMotors);
     rightDriveController = new MotorControllerGroup(rightDriveMotors);
 

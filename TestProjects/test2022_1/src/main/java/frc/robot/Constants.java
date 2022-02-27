@@ -12,9 +12,9 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {
-    public static final int[] leftDriveMotorIDs = {20, 8};
-    public static final int[] rightDriveMotorIDs = {12, 9};
+public final class Constants {                              // motors and their id numbers
+    public static final int[] leftDriveMotorIDs = {20, 6}; // motor 1: 20, motor 2: 6 - left side
+    public static final int[] rightDriveMotorIDs = {59, 8}; // motor 3: 59, motor 4: 8 - right side
     public static final boolean[] leftDriveMotorInverts = {false, false};
     public static final boolean[] rightDriveMotorInverts = {false, false};
     public static final int climbFalconMotorID = 1;
