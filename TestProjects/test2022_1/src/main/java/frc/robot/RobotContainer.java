@@ -29,7 +29,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
  
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   
 
   public static WPI_TalonSRX[] leftDriveMotors;
@@ -105,7 +105,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //final ExampleCommand sprint = new OneSecondSprint(leftDriveMotors, rightDriveMotors);
     //return sprint;
-    return m_autoCommand;
+    return ToggleShooter.java; // NEED TO MAKE SURE TO CHANGE THIS
   }
   
 

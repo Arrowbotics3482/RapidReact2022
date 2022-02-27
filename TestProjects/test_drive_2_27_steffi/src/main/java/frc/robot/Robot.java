@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private static Timer timer = new Timer();
+  //private static Timer timer = new Timer();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -114,12 +114,12 @@ public class Robot extends TimedRobot {
       need to check via DriverStation
       
     */
-    RobotContainer.drive.tankDrive(-1 * RobotContainer.controller_1.getAxis(0) * Constants.driveLimitCoefficient, RobotContainer.controller_1.getxis(5) * Constants.driveLimitCoefficient);
+    RobotContainer.drive.tankDrive(RobotContainer.controller_1.getRawAxis(0) * Constants.driveLimitCoefficient, RobotContainer.controller_1.getRawAxis(3) * Constants.driveLimitCoefficient);
 
     // DO I NEED TWO OF THESE TO DO TWO DIFFERENT JOYSTICKS
     // RobotContainer.drive.tankDrive(RobotContainer.controller_1.getAxis(0) * Constants.driveLimitCoefficient, RobotContainer.controller_1.getxis(5) * Constants.driveLimitCoefficient);
 
-    RobotContainer.intakeMotor(-1 * RobotContainer.controller_1.getAxis(0) * Constants.driveLimitCoefficient, RobotContainer.controller_1.getxis(5) * Constants.driveLimitCoefficient);
+    //RobotContainer.intakeMotor(-1 * RobotContainer.controller_1.getRawAxis(0) * Constants.driveLimitCoefficient, RobotContainer.controller_1.getRawAxis(5) * Constants.driveLimitCoefficient);
     
     
   }
