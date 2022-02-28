@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import frc.robot.commands.ExampleCommand;
+//import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ToggleShooter;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -27,7 +28,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
+  private final ToggleShooter shooterCommand = new ToggleShooter();
  
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   
@@ -105,7 +106,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //final ExampleCommand sprint = new OneSecondSprint(leftDriveMotors, rightDriveMotors);
     //return sprint;
-    return ToggleShooter.java; // NEED TO MAKE SURE TO CHANGE THIS
+    return shooterCommand; // this was toggle shooter command
   }
   
 

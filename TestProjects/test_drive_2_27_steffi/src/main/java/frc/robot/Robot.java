@@ -114,10 +114,14 @@ public class Robot extends TimedRobot {
       need to check via DriverStation
       
     */
+
+    /*
+      DO WE USE TANKDRIVE OR ARCADEDRIVE
+    */
     RobotContainer.drive.tankDrive(RobotContainer.controller_1.getRawAxis(0) * Constants.driveLimitCoefficient, RobotContainer.controller_1.getRawAxis(3) * Constants.driveLimitCoefficient);
 
     // DO I NEED TWO OF THESE TO DO TWO DIFFERENT JOYSTICKS
-    // RobotContainer.drive.tankDrive(RobotContainer.controller_1.getAxis(0) * Constants.driveLimitCoefficient, RobotContainer.controller_1.getxis(5) * Constants.driveLimitCoefficient);
+    RobotContainer.drive.tankDrive(RobotContainer.controller_2.getRawAxis(1) * Constants.driveLimitCoefficient, RobotContainer.controller_2.getRawAxis(5) * Constants.driveLimitCoefficient);
 
     //RobotContainer.intakeMotor(-1 * RobotContainer.controller_1.getRawAxis(0) * Constants.driveLimitCoefficient, RobotContainer.controller_1.getRawAxis(5) * Constants.driveLimitCoefficient);
     
