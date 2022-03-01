@@ -26,7 +26,18 @@ public final class Constants {                              // motors and their 
 
     public static final int intakeMotorID = 9;
     public static final double deadbandThreshold = 0.00001;
-    public static final int joystickID = 0;
+    
+    public static final int driveControllerID = 0;
+    public static final int otherControllerID = 1;
+
+    public static final int driveFBAxisID = 1; // forward backward axis ID
+    public static final int driveTurnAxisID = 4; // turn axis ID
+
+    public static final double intakeMotorSpeed = 0.8;
+
+    public static final int shooterButtonID = 1;
+
+
     public static final double wheelDistanceApart = 22.9; // inches
     public static final double talonMaxSpeed = -1; // rpm
     public static final double falconMaxSpeed = -1; // rpm

@@ -12,10 +12,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import frc.robot.commands.Intake;
+import frc.robot.commands.Outtake;
 //import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ToggleShooter;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -47,7 +51,13 @@ public class RobotContainer {
   public static WPI_TalonFX climbMotor;
   public static WPI_TalonFX shooterMotor;
 
-  public static Joystick joy;
+  public static Joystick driveController;
+  public static Joystick otherController;
+
+  public static POVButton topOuttake; // d pad top button for ball outtake
+  public static POVButton bottomIntake; // d pad buttom button for ball intake
+
+  public static JoystickButton shooterButton;
 
   public static AHRS navX;
 
@@ -79,10 +89,16 @@ public class RobotContainer {
 
     intakeMotor = new WPI_TalonSRX(Constants.intakeMotorID);
     
-    joy = new Joystick(Constants.joystickID);
+    driveController = new Joystick(Constants.driveControllerID);
+    otherController = new Joystick(Constants.otherControllerID);
+
+    topOuttake = new POVButton(otherController, 0); // 0 degrees
+    bottomIntake = new POVButton(otherController, 180); // 180 degrees on d pad
 
     climbMotor = new WPI_TalonFX(Constants.climbFalconMotorID);
     shooterMotor = new WPI_TalonFX(Constants.shooterFalconMotorID);
+
+    shooterButton = new JoystickButton(otherController, Constants.shooterButtonID); // smthn
 
     navX = new AHRS(SerialPort.Port.kMXP);
 
@@ -96,7 +112,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    topOuttake.whileHeld(new Outtake());
+    bottomIntake.whileHeld(new Intake());
+    shooterButton.toggleWhenPressed(new ToggleShooter());
+
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

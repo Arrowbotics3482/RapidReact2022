@@ -4,14 +4,13 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 //import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 /** An example command that uses an example subsystem. */
-public class ToggleShooter extends CommandBase {
+public class Outtake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   /**
@@ -19,15 +18,13 @@ public class ToggleShooter extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ToggleShooter() {
+  public Outtake() {
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // RobotContainer.shooterMotor.set(ControlMode.Position, );
-    // controlmode.position is an enum
-
+    RobotContainer.intakeMotor.set(-1 * Constants.intakeMotorSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,7 +33,9 @@ public class ToggleShooter extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    RobotContainer.intakeMotor.set(0);
+  }
 
   // Returns true when the command should end.
   @Override

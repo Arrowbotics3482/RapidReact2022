@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic()
   {
-    RobotContainer.drive.arcadeDrive(-1 * RobotContainer.joy.getRawAxis(0) * Constants.driveLimitCoefficient, RobotContainer.joy.getRawAxis(5) * Constants.driveLimitCoefficient);
+    RobotContainer.drive.arcadeDrive(-1 * RobotContainer.driveController.getRawAxis(Constants.driveFBAxisID) * Constants.driveLimitCoefficient, RobotContainer.driveController.getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient);
     //RobotContainer.intakeMotor.set(RobotContainer.joy.getRawAxis(5));
     //RobotContainer.shooterMotor.set(RobotContainer.joy.getRawAxis(1));
   }
