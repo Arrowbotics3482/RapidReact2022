@@ -108,20 +108,19 @@ public class Robot extends TimedRobot {
     /*
       FOR THE FOLLOWING LINE:
       WE NEED TO MAKE SURE THAT:
-        1. THE LEFT SIDE OF TANK (1st parameter) IS THE X-AXIS ON LEFT JOYSTICK
-        2. THE RIGHT SIDE OF TANK (2nd parameter) IS THE Y-AXIS ON RIGHT JOYSTICK
+        1. THE LEFT SIDE OF arcade (1st parameter) IS THE X-AXIS ON LEFT JOYSTICK
+        2. THE RIGHT SIDE OF arcade (2nd parameter) IS THE Y-AXIS ON RIGHT JOYSTICK
 
       need to check via DriverStation
+
+      USE ARCADE, NOT TANK
       
     */
-
-    /*
-      DO WE USE TANKDRIVE OR ARCADEDRIVE
-    */
-    RobotContainer.drive.tankDrive(RobotContainer.controller_1.getRawAxis(0) * Constants.driveLimitCoefficient, RobotContainer.controller_1.getRawAxis(3) * Constants.driveLimitCoefficient);
+    
+    // RobotContainer.drive.arcadeDrive();
 
     // DO I NEED TWO OF THESE TO DO TWO DIFFERENT JOYSTICKS
-    RobotContainer.drive.tankDrive(RobotContainer.controller_2.getRawAxis(1) * Constants.driveLimitCoefficient, RobotContainer.controller_2.getRawAxis(5) * Constants.driveLimitCoefficient);
+    
 
     //RobotContainer.intakeMotor(-1 * RobotContainer.controller_1.getRawAxis(0) * Constants.driveLimitCoefficient, RobotContainer.controller_1.getRawAxis(5) * Constants.driveLimitCoefficient);
     
