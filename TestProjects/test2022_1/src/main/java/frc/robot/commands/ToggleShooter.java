@@ -27,12 +27,14 @@ public class ToggleShooter extends CommandBase {
   public void initialize() {
     // RobotContainer.shooterMotor.set(ControlMode.Position, );
     // controlmode.position is an enum
-
+    //RobotContainer.shooterMotor.set(ControlMode.MotionMagic);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    
+  }
 
   // Called once the command ends or is interrupted.
   @Override

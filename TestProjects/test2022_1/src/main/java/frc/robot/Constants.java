@@ -13,27 +13,27 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {                              // motors and their id numbers
-    public static final int[] leftDriveMotorIDs = {20, 6}; // motor 1: 20, motor 2: 6 - left side
-    public static final int[] rightDriveMotorIDs = {59, 8}; // motor 3: 59, motor 4: 8 - right side
+    public static final int[] leftDriveMotorIDs = {12, 20}; //  - left side
+    public static final int[] rightDriveMotorIDs = {7, 9}; //  - right side
     public static final boolean[] leftDriveMotorInverts = {false, false};
     public static final boolean[] rightDriveMotorInverts = {false, false};
     public static final int climbFalconMotorID = 1;
     public static final int shooterFalconMotorID = 2;
 
-    public static final double driveLimitCoefficient = 1;
+    public static final double driveLimitCoefficient = 0.8;
 
     public static final int[] otherMotors = {0};
 
-    public static final int intakeMotorID = 9;
+    public static final int intakeMotorID = 59;
     public static final double deadbandThreshold = 0.00001;
     
     public static final int driveControllerID = 0;
-    public static final int otherControllerID = 1;
+    public static final int otherControllerID = 2;
 
-    public static final int driveFBAxisID = 1; // forward backward axis ID
-    public static final int driveTurnAxisID = 4; // turn axis ID
+    public static final int driveFBAxisID = 4; // forward backward axis ID
+    public static final int driveTurnAxisID = 1; // turn axis ID
 
-    public static final double intakeMotorSpeed = 0.8;
+    public static final double intakeMotorSpeed = 0.5;
 
     public static final int shooterButtonID = 1;
 
@@ -48,3 +48,4 @@ public final class Constants {                              // motors and their 
 
     */
 }
+
