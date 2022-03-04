@@ -48,8 +48,11 @@ public class RobotContainer {
 
   public static WPI_TalonSRX intakeMotor;
 
-  public static WPI_TalonFX climbMotor;
+  public static WPI_TalonFX climbMotor; // the talonfxs have 2048 ticks per revolution, the velocity is reported in ticks per 0.1 seconds
   public static WPI_TalonFX shooterMotor;
+
+  public static WPI_TalonSRX[] shooterInsertMotors;
+  public static MotorControllerGroup shooterInsertMotorControllerGroup;
 
   public static Joystick driveController;
   public static Joystick otherController;
@@ -64,25 +67,8 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    leftDriveMotors = new WPI_TalonSRX[Constants.leftDriveMotorIDs.length];
-    rightDriveMotors = new WPI_TalonSRX[Constants.rightDriveMotorIDs.length];
-    
-    
-    for(int i = 0; i < Constants.leftDriveMotorIDs.length; i++) // left side
-    {
-      leftDriveMotors[i] = new WPI_TalonSRX(Constants.leftDriveMotorIDs[i]);
-      leftDriveMotors[i].setInverted(Constants.leftDriveMotorInverts[i]);
-    }
-
-    for(int i = 0; i < Constants.rightDriveMotorIDs.length; i++) // right side
-    {
-      rightDriveMotors[i] = new WPI_TalonSRX(Constants.rightDriveMotorIDs[i]);
-      rightDriveMotors[i].setInverted(Constants.rightDriveMotorInverts[i]);
-    }
-    
-
-    leftDriveController = new MotorControllerGroup(leftDriveMotors);
-    rightDriveController = new MotorControllerGroup(rightDriveMotors);
+    leftDriveController = new MotorControllerGroup(Constants.initializeTalonArray(leftDriveMotors, Constants.leftDriveMotorIDs));
+    rightDriveController = new MotorControllerGroup(Constants.initializeTalonArray(rightDriveMotors, Constants.rightDriveMotorIDs));
 
     drive = new DifferentialDrive(leftDriveController, rightDriveController);
     drive.setDeadband(Constants.deadbandThreshold);
@@ -92,11 +78,13 @@ public class RobotContainer {
     driveController = new Joystick(Constants.driveControllerID);
     otherController = new Joystick(Constants.otherControllerID);
 
-    topOuttake = new POVButton(otherController, 0); // 0 degrees
-    bottomIntake = new POVButton(otherController, 180); // 180 degrees on d pad
+    topOuttake = new POVButton(otherController, Constants.intakePOVAngles[0]); // 0 degrees
+    bottomIntake = new POVButton(otherController, Constants.intakePOVAngles[1]); // 180 degrees on d pad
 
     climbMotor = new WPI_TalonFX(Constants.climbFalconMotorID);
     shooterMotor = new WPI_TalonFX(Constants.shooterFalconMotorID);
+
+    shooterInsertMotorControllerGroup = new MotorControllerGroup(Constants.initializeTalonArray(shooterInsertMotors, Constants.shooterInsertMotorIDs));
 
     shooterButton = new JoystickButton(otherController, Constants.shooterButtonID); // smthn
 

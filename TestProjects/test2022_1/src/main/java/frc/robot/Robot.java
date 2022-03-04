@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -90,14 +91,14 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic()
   {
     RobotContainer.drive.arcadeDrive(-1 * RobotContainer.driveController.getRawAxis(Constants.driveFBAxisID) * Constants.driveLimitCoefficient, RobotContainer.driveController.getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient);
-    //RobotContainer.intakeMotor.set(RobotContainer.joy.getRawAxis(5));
-    //RobotContainer.shooterMotor.set(RobotContainer.joy.getRawAxis(1));
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    RobotContainer.otherController.setRumble(RumbleType.kLeftRumble, 1);
+    RobotContainer.otherController.setRumble(RumbleType.kRightRumble, 1);
   }
 
   /** This function is called periodically during test mode. */
