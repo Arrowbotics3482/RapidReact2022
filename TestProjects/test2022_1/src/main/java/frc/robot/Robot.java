@@ -91,6 +91,11 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic()
   {
     RobotContainer.drive.arcadeDrive(-1 * RobotContainer.driveController.getRawAxis(Constants.driveFBAxisID) * Constants.driveLimitCoefficient, RobotContainer.driveController.getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient);
+    System.out.println("Testing values:");
+    System.out.println("Forward Backward Axis: " + -1 * RobotContainer.driveController.getRawAxis(Constants.driveFBAxisID) * Constants.driveLimitCoefficient);
+    System.out.println("Turn Axis: " + RobotContainer.driveController.getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient);
+
+
     
   }
 
