@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,60 +33,79 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ToggleShooter shooterCommand = new ToggleShooter();
  
-  //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+
+  // controls
+  public static Joystick actualDriveController,
+                         actualOtherController,
+                         driveController,
+                         otherController; // the two not actual controllers can be set to either of the actual controllers, effectively "stealing" the button bindings from that controller
+    
+  public static JoystickButton shooterButton,
+                               driveStealDriveControlButton,
+                               otherStealDriveControlButton,
+                               driveStealOtherControlButton,
+                               otherStealOtherControlButton,
+                               driveFBFineTuneButton,
+                               driveTurnFineTuneButton;
+  public static POVButton topOuttake,
+                          bottomIntake; // d pad top and bottom buttons for intake
   
-
-  public static WPI_TalonSRX[] leftDriveMotors;
-  public static WPI_TalonSRX[] rightDriveMotors;
-  
-
-  public static MotorControllerGroup leftDriveController;
-  public static MotorControllerGroup rightDriveController;
-
+  // drive
+  public static WPI_TalonSRX[] leftDriveMotors, rightDriveMotors;
+  public static MotorControllerGroup leftDriveController,rightDriveController;
   public static DifferentialDrive drive;
 
+  // intake
   public static WPI_TalonSRX intakeMotor;
 
-  public static WPI_TalonFX climbMotor; // the talonfxs have 2048 ticks per revolution, the velocity is reported in ticks per 0.1 seconds
-  public static WPI_TalonFX shooterMotor;
+  // climb
+  public static WPI_TalonFX climbMotor;
 
+  // shooter
+  public static WPI_TalonFX shooterMotor; // the talonfxs have 2048 ticks per revolution, the velocity is reported in ticks per 0.1 seconds
   public static WPI_TalonSRX[] shooterInsertMotors;
   public static MotorControllerGroup shooterInsertMotorControllerGroup;
 
-  public static Joystick driveController;
-  public static Joystick otherController;
-
-  public static POVButton topOuttake; // d pad top button for ball outtake
-  public static POVButton bottomIntake; // d pad buttom button for ball intake
-
-  public static JoystickButton shooterButton;
-
+  // other
   public static AHRS navX;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+    // controls
+    actualDriveController = new Joystick(Constants.driveControllerID);
+    actualOtherController = new Joystick(Constants.otherControllerID);
+    driveController = actualDriveController;
+    otherController = actualOtherController;
+    topOuttake = new POVButton(otherController, Constants.intakePOVAngles[0]); // 0 degrees
+    bottomIntake = new POVButton(otherController, Constants.intakePOVAngles[1]); // 180 degrees on d pad
+    shooterButton = new JoystickButton(otherController, Constants.shooterButtonID); // smthn
+    driveStealDriveControlButton = new JoystickButton(actualDriveController, Constants.stealDriveControlButtonID);
+    otherStealDriveControlButton = new JoystickButton(actualOtherController, Constants.stealDriveControlButtonID);
+    driveStealOtherControlButton = new JoystickButton(actualDriveController, Constants.stealOtherControlButtonID);
+    otherStealOtherControlButton = new JoystickButton(actualOtherController, Constants.stealOtherControlButtonID);
+    driveFBFineTuneButton = new JoystickButton(driveController, Constants.driveFBFineTuneButtonID);
+    driveTurnFineTuneButton = new JoystickButton(driveController, Constants.driveTurnFineTuneButtonID);
+
+    // drive
     leftDriveController = new MotorControllerGroup(Constants.initializeTalonArray(leftDriveMotors, Constants.leftDriveMotorIDs));
     rightDriveController = new MotorControllerGroup(Constants.initializeTalonArray(rightDriveMotors, Constants.rightDriveMotorIDs));
 
     drive = new DifferentialDrive(leftDriveController, rightDriveController);
-    drive.setDeadband(Constants.deadbandThreshold);
+    drive.setDeadband(0);
 
+    // intake
     intakeMotor = new WPI_TalonSRX(Constants.intakeMotorID);
     
-    driveController = new Joystick(Constants.driveControllerID);
-    otherController = new Joystick(Constants.otherControllerID);
-
-    topOuttake = new POVButton(otherController, Constants.intakePOVAngles[0]); // 0 degrees
-    bottomIntake = new POVButton(otherController, Constants.intakePOVAngles[1]); // 180 degrees on d pad
-
+    // climb
     climbMotor = new WPI_TalonFX(Constants.climbFalconMotorID);
+    
+    // shooter
     shooterMotor = new WPI_TalonFX(Constants.shooterFalconMotorID);
-
     shooterInsertMotorControllerGroup = new MotorControllerGroup(Constants.initializeTalonArray(shooterInsertMotors, Constants.shooterInsertMotorIDs));
 
-    shooterButton = new JoystickButton(otherController, Constants.shooterButtonID); // smthn
-
+    // other
     navX = new AHRS(SerialPort.Port.kMXP);
 
     // Configure the button bindings
@@ -104,7 +122,6 @@ public class RobotContainer {
     topOuttake.whileHeld(new Outtake());
     bottomIntake.whileHeld(new Intake());
     shooterButton.toggleWhenPressed(new ToggleShooter());
-
   }
 
   /**

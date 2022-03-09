@@ -9,7 +9,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 //import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 /** An example command that uses an example subsystem. */

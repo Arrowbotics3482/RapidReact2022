@@ -19,21 +19,30 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
  */
 public final class Constants {                              // motors and their id numbers
     // joystick ids and button bindings
-    public static final int driveControllerID = 0;
-    public static final int otherControllerID = 2;
-    public static final int shooterButtonID = 1;
-    public static final int climbButtonID = 3;
+        // joystick ids
+    public static final int driveControllerID = 0,
+                            otherControllerID = 2;
+        // button bindings
+    public static final int shooterButtonID = 1,
+                            climbButtonID = 4,
+                            stealDriveControlButtonID = 7,
+                            stealOtherControlButtonID = 8,
+                            driveFBFineTuneButtonID = 5,
+                            driveTurnFineTuneButtonID = 6;
+
     public static final int[] intakePOVAngles = {0, 180};
-    public static final int driveFBAxisID = 4; // forward backward axis ID
-    public static final int driveTurnAxisID = 1; // turn axis ID
+    public static final int driveFBAxisID = 4, 
+                            driveTurnAxisID = 1; // forward and turn axis IDs
+    public static final double fineTuneProportion = 10;
+    
 
     // drive constants
-    public static final int[] leftDriveMotorIDs = {12, 20}; //  - left side
-    public static final int[] rightDriveMotorIDs = {7, 9}; //  - right side
-    public static final boolean[] leftDriveMotorInverts = {false, false};
-    public static final boolean[] rightDriveMotorInverts = {false, false};
+    public static final int[] leftDriveMotorIDs = {12, 20}, //  - left side
+                              rightDriveMotorIDs = {7, 9}; //  - right side
+    public static final boolean[] leftDriveMotorInverts = {false, false},
+                                  rightDriveMotorInverts = {false, false};
     public static final double driveLimitCoefficient = 0.7; // -1, 1
-    public static final double deadbandThreshold = 0.00001;
+    public static final double deadbandThreshold = 0.1;
     
     // climb constants
     public static final int climbFalconMotorID = 1;
@@ -55,9 +64,9 @@ public final class Constants {                              // motors and their 
     public static final double wheelDistanceApart = 22.9; // inches
 
     // PID CONSTANTS
-    public static final double kp = 0;
-    public static final double kd = 0;
-    public static final double ki = 0;
+    public static final double kp = 0,
+                               kd = 0,
+                               ki = 0;
 
     // method to initialize an array of WPI_TalonSRXs given an array of device ids, returns it too for initialization of a MotorControllerGroup
     public static MotorController[] initializeTalonArray(MotorController[] controllers, int[] deviceIDs)

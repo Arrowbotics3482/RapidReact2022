@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -17,12 +16,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
-  private static Timer timer = new Timer();
+  private Timer timer = new Timer();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -32,7 +30,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    // RobotContainer.
     m_robotContainer = new RobotContainer();
   }
 
@@ -68,7 +65,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    
   }
 
   /** This function is called periodically during autonomous. */
@@ -88,58 +84,32 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic()
-  {
-    // stealing controls
-    if (RobotContainer.driveStealDriveControlButton.get())
-    {
-      RobotContainer.driveController = RobotContainer.actualDriveController;
-    } else if (RobotContainer.otherStealDriveControlButton.get())
-    {
-      RobotContainer.driveController = RobotContainer.actualOtherController;
-    }
-
-    if (RobotContainer.driveStealOtherControlButton.get())
-    {
-      RobotContainer.otherController = RobotContainer.actualDriveController;
-    } else if (RobotContainer.otherStealOtherControlButton.get())
-    {
-      RobotContainer.otherController = RobotContainer.actualOtherController;
-    }
-
-    // driving
-    double fb = -1 * RobotContainer.driveController.getRawAxis(Constants.driveFBAxisID) * Constants.driveLimitCoefficient;
-    double turn = RobotContainer.driveController.getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient;
-    if (RobotContainer.driveFBFineTuneButton.get())
-    {
-      fb /= Constants.fineTuneProportion;
-    } else if (Math.abs(fb) <= Constants.deadbandThreshold)
-    {
-      fb = 0;
-    }
-    if (RobotContainer.driveTurnFineTuneButton.get())
-    {
-      turn /= Constants.fineTuneProportion;
-    } else if (Math.abs(turn) <= Constants.deadbandThreshold)
-    {
-      turn = 0;
-    }
-
-    RobotContainer.drive.arcadeDrive(fb, turn);
-    
-
-    
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    RobotContainer.otherController.setRumble(RumbleType.kLeftRumble, 1);
-    RobotContainer.otherController.setRumble(RumbleType.kRightRumble, 1);
+    timer.start();
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    if (timer.get() > 1) {
+      System.out.println("0: " + RobotContainer.joy1.getRawAxis(0) + ", " + RobotContainer.joy1.getRawAxis(1) + "\n___" + RobotContainer.joy1.getRawAxis(4) + ", " + RobotContainer.joy1.getRawAxis(5));
+      System.out.println("2: " + RobotContainer.joy2.getRawAxis(0) + ", " + RobotContainer.joy2.getRawAxis(1) + "\n___" + RobotContainer.joy2.getRawAxis(4) + ", " + RobotContainer.joy2.getRawAxis(5));
+      System.out.println("_");
+
+      timer.reset();
+    }
+  }
+
+  /** This function is called once when the robot is first started up. */
+  @Override
+  public void simulationInit() {}
+
+  /** This function is called periodically whilst in simulation. */
+  @Override
+  public void simulationPeriodic() {}
 }
