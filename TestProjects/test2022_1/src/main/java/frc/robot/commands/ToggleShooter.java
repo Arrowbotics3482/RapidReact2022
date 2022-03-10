@@ -15,13 +15,18 @@ import frc.robot.RobotContainer;
 public class ToggleShooter extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  
+  private int joyID;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
+  public ToggleShooter(int joyID) {
+    this.joyID = joyID;
+  }
+
   public ToggleShooter() {
+    this.joyID = -1;
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +36,7 @@ public class ToggleShooter extends CommandBase {
     // controlmode.position is an enum
     //RobotContainer.shooterMotor.set(ControlMode.MotionMagic);
 
-    RobotContainer.shooterMotor.set(ControlMode.Velocity, Constants.shooterTP100M);
+    if (joyID == RobotContainer.currentOtherControllerID) RobotContainer.shooterMotor.set(ControlMode.Velocity, Constants.shooterTP100M);
   }
 
   // Called every time the scheduler runs w1+hile the command is scheduled.

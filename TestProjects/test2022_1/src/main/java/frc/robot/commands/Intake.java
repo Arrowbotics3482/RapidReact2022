@@ -13,18 +13,20 @@ import frc.robot.RobotContainer;
 public class Intake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
+  private int joyID;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Intake() {
+  public Intake(int joyID) {
+    this.joyID = joyID;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.intakeMotor.set(Constants.intakeMotorSpeed);
+    if (joyID == RobotContainer.currentOtherControllerID) RobotContainer.intakeMotor.set(Constants.intakeMotorSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,7 +38,7 @@ public class Intake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.intakeMotor.set(0);
+    if (joyID == RobotContainer.currentOtherControllerID) RobotContainer.intakeMotor.set(0);
   }
 
   // Returns true when the command should end.

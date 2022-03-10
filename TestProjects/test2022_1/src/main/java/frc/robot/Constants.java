@@ -4,11 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -20,20 +15,19 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 public final class Constants {                              // motors and their id numbers
     // joystick ids and button bindings
         // joystick ids
-    public static final int driveControllerID = 0,
-                            otherControllerID = 2;
+    public static final int[] controllerIDs = {0, 2};
         // button bindings
     public static final int shooterButtonID = 1,
                             climbButtonID = 4,
                             stealDriveControlButtonID = 7,
                             stealOtherControlButtonID = 8,
-                            driveFBFineTuneButtonID = 5,
-                            driveTurnFineTuneButtonID = 6;
+                            driveFBFineTuneButtonID = 6,
+                            driveTurnFineTuneButtonID = 5;
 
     public static final int[] intakePOVAngles = {0, 180};
     public static final int driveFBAxisID = 4, 
                             driveTurnAxisID = 1; // forward and turn axis IDs
-    public static final double fineTuneProportion = 10;
+    public static final double fineTuneProportion = 3;
     
 
     // drive constants
@@ -68,15 +62,5 @@ public final class Constants {                              // motors and their 
                                kd = 0,
                                ki = 0;
 
-    // method to initialize an array of WPI_TalonSRXs given an array of device ids, returns it too for initialization of a MotorControllerGroup
-    public static MotorController[] initializeTalonArray(MotorController[] controllers, int[] deviceIDs)
-    {
-        controllers = new MotorController[deviceIDs.length];
-        for (int i = 0; i < deviceIDs.length; i++)
-        {
-            controllers[i] = new WPI_TalonSRX(deviceIDs[i]);
-        }
-        return controllers;
-    }
 }
 

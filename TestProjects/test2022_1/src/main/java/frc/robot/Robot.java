@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -91,39 +90,38 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic()
   {
     // stealing controls
-    if (RobotContainer.driveStealDriveControlButton.get())
+    for (int i = 0; i < Constants.controllerIDs.length; i++)
     {
-      RobotContainer.driveController = RobotContainer.actualDriveController;
-    } else if (RobotContainer.otherStealDriveControlButton.get())
-    {
-      RobotContainer.driveController = RobotContainer.actualOtherController;
+      if (RobotContainer.stealDriveButton[i].get())
+      {
+        RobotContainer.currentDriveControllerID = i;
+      }
+      if (RobotContainer.stealOtherButton[i].get())
+      {
+        RobotContainer.currentOtherControllerID = i;
+      }
     }
-
-    if (RobotContainer.driveStealOtherControlButton.get())
-    {
-      RobotContainer.otherController = RobotContainer.actualDriveController;
-    } else if (RobotContainer.otherStealOtherControlButton.get())
-    {
-      RobotContainer.otherController = RobotContainer.actualOtherController;
-    }
-
     // driving
-    double fb = -1 * RobotContainer.driveController.getRawAxis(Constants.driveFBAxisID) * Constants.driveLimitCoefficient;
-    double turn = RobotContainer.driveController.getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient;
-    if (RobotContainer.driveFBFineTuneButton.get())
+    double fb = -1 * RobotContainer.controllers[RobotContainer.currentDriveControllerID].getRawAxis(Constants.driveFBAxisID) * Constants.driveLimitCoefficient;
+    double turn = RobotContainer.controllers[RobotContainer.currentDriveControllerID].getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient;
+    boolean fbFineTune = RobotContainer.driveFBFineTuneButton[RobotContainer.currentDriveControllerID].get();
+    boolean turnFineTune = RobotContainer.driveTurnFineTuneButton[RobotContainer.currentDriveControllerID].get();
+    if (fbFineTune)
     {
       fb /= Constants.fineTuneProportion;
     } else if (Math.abs(fb) <= Constants.deadbandThreshold)
     {
       fb = 0;
     }
-    if (RobotContainer.driveTurnFineTuneButton.get())
+    if (turnFineTune)
     {
       turn /= Constants.fineTuneProportion;
     } else if (Math.abs(turn) <= Constants.deadbandThreshold)
     {
       turn = 0;
     }
+
+    // System.out.println("fb: " + fbFineTune + "\nturn: " + turnFineTune + "\n____");
 
     RobotContainer.drive.arcadeDrive(fb, turn);
     
@@ -134,9 +132,9 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
+    timer.start();
+    timer.stop();
     CommandScheduler.getInstance().cancelAll();
-    RobotContainer.otherController.setRumble(RumbleType.kLeftRumble, 1);
-    RobotContainer.otherController.setRumble(RumbleType.kRightRumble, 1);
   }
 
   /** This function is called periodically during test mode. */
