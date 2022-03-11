@@ -36,13 +36,19 @@ public class ToggleShooter extends CommandBase {
     // controlmode.position is an enum
     //RobotContainer.shooterMotor.set(ControlMode.MotionMagic);
 
-    if (joyID == RobotContainer.currentOtherControllerID) RobotContainer.shooterMotor.set(ControlMode.Velocity, Constants.shooterTP100M);
+    if (RobotContainer.isCorrectJoystick(joyID, 1)) 
+    {
+      RobotContainer.shooterMotor.set(ControlMode.Velocity, Constants.shooterTP100M);
+    } else
+    {
+      end(true);
+    }
   }
 
   // Called every time the scheduler runs w1+hile the command is scheduled.
   @Override
   public void execute() {
-    if (Math.abs(RobotContainer.shooterMotor.getSelectedSensorVelocity() - Constants.shooterTP100M) < Constants.shotSpeedTolerance)
+    if (RobotContainer.isCorrectJoystick(joyID, 1) && Math.abs(RobotContainer.shooterMotor.getSelectedSensorVelocity() - Constants.shooterTP100M) < Constants.shotSpeedTolerance)
     {
       RobotContainer.shooterInsertMotorControllerGroup.set(Constants.insertVoltage);
     }

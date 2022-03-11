@@ -4,32 +4,26 @@
 
 package frc.robot.commands;
 
-
-//import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 /** An example command that uses an example subsystem. */
-public class Outtake extends CommandBase {
+public class Climb extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  
-  private int joyID;
+
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Outtake(int joyID) {
-    this.joyID = joyID;
+  public Climb() {
+    // Use addRequirements() here to declare subsystem dependencies.
+
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    if (joyID == RobotContainer.currentOtherControllerIndex || joyID == -1)
-      RobotContainer.intakeMotor.set(-1 * Constants.intakeMotorSpeed);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -37,10 +31,7 @@ public class Outtake extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    if (joyID == RobotContainer.currentOtherControllerIndex || joyID == -1)
-      RobotContainer.intakeMotor.set(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

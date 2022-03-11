@@ -35,8 +35,8 @@ public class RobotContainer {
   // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   // controls
-  public static int currentDriveControllerID,
-                    currentOtherControllerID;
+  public static int currentDriveControllerIndex,
+                    currentOtherControllerIndex;
 
   public static Joystick[] controllers;
     
@@ -112,7 +112,8 @@ public class RobotContainer {
     shooterInsertMotorControllerGroup = new MotorControllerGroup(initializeTalonArray(shooterInsertMotors, Constants.shooterInsertMotorIDs));
 
     // other
-    navX = new AHRS(SerialPort.Port.kMXP);
+    navX = new AHRS(SerialPort.Port.kMXP); //could be: navX = new AHRS(SPI.Port.kMXP);
+    navX.enableLogging(true); //For Data Output
 
     // Configure the button bindings
     configureButtonBindings();
@@ -154,4 +155,10 @@ public class RobotContainer {
       }
       return controllers;
   }
+
+  public static boolean isCorrectJoystick(int joyID, int correctJoyID) // correctJoyID of 0 is drive, 1 is other
+  {
+    return joyID == ((correctJoyID == 0) ? currentDriveControllerIndex : currentOtherControllerIndex) || joyID == -1;
+  }
+
 }

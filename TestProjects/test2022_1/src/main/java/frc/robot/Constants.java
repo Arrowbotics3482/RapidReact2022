@@ -40,6 +40,7 @@ public final class Constants {                              // motors and their 
     
     // climb constants
     public static final int climbFalconMotorID = 1;
+    public static final double climbMotorSpeed = 1;
     
     // intake constants
     public static final int intakeMotorID = 59;
@@ -48,8 +49,8 @@ public final class Constants {                              // motors and their 
     // shooter constants
     public static final int shooterFalconMotorID = 2;
     
-    public static final double shooterRPM = 1;
-    public static final double shooterTP100M = shooterRPM / 600 * 2048;
+    public static final double shooterRPM = 1,
+                               shooterTP100M = shooterRPM / 600 * 2048;
     public static final double shotSpeedTolerance = 200; // in ticks per 100 ms
     public static final double insertVoltage = 0.5; // between -1 and 1
     public static final int[] shooterInsertMotorIDs = {3, 4};
