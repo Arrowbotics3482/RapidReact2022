@@ -22,12 +22,13 @@ public final class Constants {                              // motors and their 
                             stealDriveControlButtonID = 7,
                             stealOtherControlButtonID = 8,
                             driveFBFineTuneButtonID = 6,
-                            driveTurnFineTuneButtonID = 5;
+                            driveTurnFineTuneButtonID = 5; // there is some issue with these ids rn but I don't have the brain to figure it out
 
     public static final int[] intakePOVAngles = {0, 180};
     public static final int driveFBAxisID = 4, 
                             driveTurnAxisID = 1; // forward and turn axis IDs
-    public static final double fineTuneProportion = 3;
+    public static final double fineFBTuneProportion = 0.75,
+                               fineTurnTuneProportion = 0.5;
     
 
     // drive constants
@@ -41,19 +42,20 @@ public final class Constants {                              // motors and their 
     // climb constants
     public static final int climbFalconMotorID = 1;
     public static final double climbMotorSpeed = 1;
+    public static final int climbMotorPosition = 1;
     
     // intake constants
     public static final int intakeMotorID = 59;
-    public static final double intakeMotorSpeed = 0.5; // -1, 1
+    public static final double intakeMotorSpeed = 0.25; // -1, 1
 
     // shooter constants
-    public static final int shooterFalconMotorID = 2;
+    public static final int shooterFalconMotorID = 1; //2
     
-    public static final double shooterRPM = 1,
+    public static final double shooterRPM = 10,
                                shooterTP100M = shooterRPM / 600 * 2048;
     public static final double shotSpeedTolerance = 200; // in ticks per 100 ms
     public static final double insertVoltage = 0.5; // between -1 and 1
-    public static final int[] shooterInsertMotorIDs = {3, 4};
+    public static final int[] shooterInsertMotorIDs = {5, 6};
 
     // other constants
     public static final double wheelDistanceApart = 22.9; // inches

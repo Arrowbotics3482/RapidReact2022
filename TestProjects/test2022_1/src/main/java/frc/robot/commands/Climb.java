@@ -4,26 +4,37 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExampleSubsystem;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class Climb extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
+  private int joyID;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Climb() {
+  public Climb(int joyID) {
     // Use addRequirements() here to declare subsystem dependencies.
-
+    this.joyID = joyID;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if(RobotContainer.isCorrectJoystick(joyID, 1));
+    {
+      RobotContainer.climbMotor.set(ControlMode.Position, Constants.climbMotorPosition);
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

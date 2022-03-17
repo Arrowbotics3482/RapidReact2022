@@ -39,9 +39,6 @@ public class ToggleShooter extends CommandBase {
     if (RobotContainer.isCorrectJoystick(joyID, 1)) 
     {
       RobotContainer.shooterMotor.set(ControlMode.Velocity, Constants.shooterTP100M);
-    } else
-    {
-      end(true);
     }
   }
 
@@ -57,8 +54,11 @@ public class ToggleShooter extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.shooterInsertMotorControllerGroup.set(0);
-    RobotContainer.shooterMotor.set(0);
+    if (RobotContainer.isCorrectJoystick(joyID, 1))
+    {
+      RobotContainer.shooterInsertMotorControllerGroup.set(0);
+      RobotContainer.shooterMotor.set(0);
+    }
   }
 
   // Returns true when the command should end.

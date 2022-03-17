@@ -73,14 +73,14 @@ public class Robot extends TimedRobot {
     boolean turnFineTune = RobotContainer.driveTurnFineTuneButton[RobotContainer.currentDriveControllerIndex].get();
     if (fbFineTune)
     {
-      fb /= Constants.fineTuneProportion;
+      fb *= Constants.fineFBTuneProportion;
     } else if (Math.abs(fb) <= Constants.deadbandThreshold)
     {
       fb = 0;
     }
     if (turnFineTune)
     {
-      turn /= Constants.fineTuneProportion;
+      turn *= Constants.fineTurnTuneProportion;
     } else if (Math.abs(turn) <= Constants.deadbandThreshold)
     {
       turn = 0;

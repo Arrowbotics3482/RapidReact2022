@@ -27,7 +27,7 @@ public class Outtake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (joyID == RobotContainer.currentOtherControllerIndex || joyID == -1)
+    if (RobotContainer.isCorrectJoystick(joyID, 1))
       RobotContainer.intakeMotor.set(-1 * Constants.intakeMotorSpeed);
   }
 
@@ -38,7 +38,7 @@ public class Outtake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (joyID == RobotContainer.currentOtherControllerIndex || joyID == -1)
+    if (RobotContainer.isCorrectJoystick(joyID, 1))
       RobotContainer.intakeMotor.set(0);
   }
 

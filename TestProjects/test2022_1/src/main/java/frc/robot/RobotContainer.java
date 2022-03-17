@@ -158,7 +158,7 @@ public class RobotContainer {
 
   public static boolean isCorrectJoystick(int joyID, int correctJoyID) // correctJoyID of 0 is drive, 1 is other
   {
-    return joyID == ((correctJoyID == 0) ? currentDriveControllerIndex : currentOtherControllerIndex) || joyID == -1;
+    return joyID == -1 || (joyID == ((correctJoyID == 0) ? currentDriveControllerIndex : currentOtherControllerIndex));
   }
 
 }
