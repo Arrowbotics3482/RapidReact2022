@@ -14,21 +14,17 @@ import frc.robot.RobotContainer;
 public class Outtake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private int joyID;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Outtake(int joyID) {
-    this.joyID = joyID;
-  }
+  public Outtake() {}
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (RobotContainer.isCorrectJoystick(joyID, 1))
-      RobotContainer.intakeMotor.set(-1 * Constants.intakeMotorSpeed);
+    RobotContainer.intakeMotor.set(-1 * Constants.intakeMotorSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,8 +34,7 @@ public class Outtake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (RobotContainer.isCorrectJoystick(joyID, 1))
-      RobotContainer.intakeMotor.set(0);
+    RobotContainer.intakeMotor.set(0);
   }
 
   // Returns true when the command should end.

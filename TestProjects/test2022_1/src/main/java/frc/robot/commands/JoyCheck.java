@@ -4,45 +4,64 @@
 
 package frc.robot.commands;
 
-//import frc.robot.subsystems.ExampleSubsystem;
+import javax.swing.Action;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 /** An example command that uses an example subsystem. */
-public class Intake extends CommandBase {
+public class JoyCheck extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private double time;
+  private int joyID;
+  private JoyType joyType;
+  private CommandBase command;
+  private boolean active;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Intake() {
-    time = -1;
+  public JoyCheck(int joyID, JoyType joyType, CommandBase command) {
+    this.active = false;
+    this.joyID = joyID;
+    this.joyType = joyType;
+    this.command = command;
   }
 
-  public Intake(double time)
+  public enum JoyType
   {
-    this.time = time;
+    DRIVE, OTHER
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.intakeMotor.set(Constants.intakeMotorSpeed);
+    int checkAgainst = -1;
+    if (joyType == JoyType.DRIVE)
+    {
+      checkAgainst = RobotContainer.currentDriveControllerIndex;
+    } else if (joyType == JoyType.OTHER)
+    {
+      checkAgainst = RobotContainer.currentOtherControllerIndex;
+    }
+    if(joyID == checkAgainst)
+    {
+      command.schedule(true);
+      active = true;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.intakeMotor.set(0);
+    if(active)
+      command.cancel();
   }
 
   // Returns true when the command should end.

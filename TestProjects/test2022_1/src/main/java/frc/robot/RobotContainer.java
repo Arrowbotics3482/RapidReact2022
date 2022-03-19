@@ -7,6 +7,8 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -14,9 +16,11 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.commands.Intake;
+import frc.robot.commands.JoyCheck;
 import frc.robot.commands.Outtake;
 //import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ToggleShooter;
+import frc.robot.commands.JoyCheck.JoyType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -63,6 +67,7 @@ public class RobotContainer {
   public static WPI_TalonFX shooterMotor; // the talonfxs have 2048 ticks per revolution, the velocity is reported in ticks per 0.1 seconds
   public static WPI_TalonSRX[] shooterInsertMotors;
   public static MotorControllerGroup shooterInsertMotorControllerGroup;
+  public static PIDController shooterPidController;
 
   // other
   public static AHRS navX;
@@ -95,8 +100,8 @@ public class RobotContainer {
     }
 
     // drive
-    leftDriveMotors = new MotorControllerGroup(initializeTalonArray(leftDriveMotorArr, Constants.leftDriveMotorIDs));
-    rightDriveMotors = new MotorControllerGroup(initializeTalonArray(rightDriveMotorArr, Constants.rightDriveMotorIDs));
+    leftDriveMotors = new MotorControllerGroup(initializeTalonArray(Constants.leftDriveMotorIDs));
+    rightDriveMotors = new MotorControllerGroup(initializeTalonArray(Constants.rightDriveMotorIDs));
 
     drive = new DifferentialDrive(leftDriveMotors, rightDriveMotors);
     drive.setDeadband(0);
@@ -109,7 +114,7 @@ public class RobotContainer {
     
     // shooter
     shooterMotor = new WPI_TalonFX(Constants.shooterFalconMotorID);
-    shooterInsertMotorControllerGroup = new MotorControllerGroup(initializeTalonArray(shooterInsertMotors, Constants.shooterInsertMotorIDs));
+    shooterInsertMotorControllerGroup = new MotorControllerGroup(initializeTalonArray(Constants.shooterInsertMotorIDs));
 
     // other
     navX = new AHRS(SerialPort.Port.kMXP); //could be: navX = new AHRS(SPI.Port.kMXP);
@@ -128,9 +133,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     for (int i = 0; i < controllers.length; i++)
     {
-      topOuttake[i].whileHeld(new Outtake(i));
-      bottomIntake[i].whileHeld(new Intake(i));
-      shooterButton[i].toggleWhenPressed(new ToggleShooter(i));
+      topOuttake[i].whileHeld(new JoyCheck(i, JoyType.OTHER, new Outtake()));
+      bottomIntake[i].whileHeld(new JoyCheck(i, JoyType.OTHER, new Intake()));
+      shooterButton[i].toggleWhenPressed(new JoyCheck(i, JoyType.OTHER, new ToggleShooter()));
     }
   }
 
@@ -146,19 +151,13 @@ public class RobotContainer {
   }
   
   // method to initialize an array of WPI_TalonSRXs given an array of device ids, returns it too for initialization of a MotorControllerGroup
-  public static MotorController[] initializeTalonArray(MotorController[] controllers, int[] deviceIDs)
+  public static MotorController[] initializeTalonArray(int[] deviceIDs)
   {
-      controllers = new MotorController[deviceIDs.length];
+      MotorController[] controllers = new MotorController[deviceIDs.length];
       for (int i = 0; i < deviceIDs.length; i++)
       {
           controllers[i] = new WPI_TalonSRX(deviceIDs[i]);
       }
       return controllers;
   }
-
-  public static boolean isCorrectJoystick(int joyID, int correctJoyID) // correctJoyID of 0 is drive, 1 is other
-  {
-    return joyID == -1 || (joyID == ((correctJoyID == 0) ? currentDriveControllerIndex : currentOtherControllerIndex));
-  }
-
 }
