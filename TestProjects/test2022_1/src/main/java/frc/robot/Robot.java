@@ -54,52 +54,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic()
   {
-    // stealing controls
-    for (int i = 0; i < Constants.controllerIDs.length; i++)
-    {
-      if (RobotContainer.stealDriveButton[i].get())
-      {
-        RobotContainer.currentDriveControllerIndex = i;
-      }
-      if (RobotContainer.stealOtherButton[i].get())
-      {
-        RobotContainer.currentOtherControllerIndex = i;
-      }
-    }
-    // driving
-    double fb = -1 * RobotContainer.controllers[RobotContainer.currentDriveControllerIndex].getRawAxis(Constants.driveFBAxisID) * Constants.driveLimitCoefficient;
-    double turn = RobotContainer.controllers[RobotContainer.currentDriveControllerIndex].getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient;
-    boolean fbFineTune = RobotContainer.driveFBFineTuneButton[RobotContainer.currentDriveControllerIndex].get();
-    boolean turnFineTune = RobotContainer.driveTurnFineTuneButton[RobotContainer.currentDriveControllerIndex].get();
-    if (fbFineTune)
-    {
-      fb *= Constants.fineFBTuneProportion;
-    } else if (Math.abs(fb) <= Constants.deadbandThreshold)
-    {
-      fb = 0;
-    }
-    if (turnFineTune)
-    {
-      turn *= Constants.fineTurnTuneProportion;
-    } else if (Math.abs(turn) <= Constants.deadbandThreshold)
-    {
-      turn = 0;
-    }
-
-    // System.out.println("fb: " + fbFineTune + "\nturn: " + turnFineTune + "\n____");
-
-    // displayData();
-
-    RobotContainer.drive.arcadeDrive(fb, turn);
-    
+    RobotContainer.stealControls();
+    RobotContainer.drive();
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
+    CommandScheduler.getInstance().cancelAll();
     timer.start();
     timer.stop();
-    CommandScheduler.getInstance().cancelAll();
+    displayData();
   }
 
   @Override

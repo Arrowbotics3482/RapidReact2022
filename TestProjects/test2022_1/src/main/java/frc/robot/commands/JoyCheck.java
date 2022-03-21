@@ -4,53 +4,44 @@
 
 package frc.robot.commands;
 
-import javax.swing.Action;
-
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.JoyType;
 
 /** An example command that uses an example subsystem. */
 public class JoyCheck extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private int joyID;
   private JoyType joyType;
-  private CommandBase command;
-  private boolean active;
+  private Command command;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public JoyCheck(int joyID, JoyType joyType, CommandBase command) {
-    this.active = false;
+  public JoyCheck(int joyID, JoyType joyType, Command command) {
     this.joyID = joyID;
     this.joyType = joyType;
     this.command = command;
-  }
-
-  public enum JoyType
-  {
-    DRIVE, OTHER
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     int checkAgainst = -1;
-    if (joyType == JoyType.DRIVE)
+
+    switch (joyType)
     {
-      checkAgainst = RobotContainer.currentDriveControllerIndex;
-    } else if (joyType == JoyType.OTHER)
-    {
-      checkAgainst = RobotContainer.currentOtherControllerIndex;
+      case DRIVE:
+        checkAgainst = RobotContainer.currentDriveControllerIndex;
+        break;
+      case OTHER:
+        checkAgainst = RobotContainer.currentOtherControllerIndex;
     }
+    
     if(joyID == checkAgainst)
-    {
       command.schedule(true);
-      active = true;
-    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -60,7 +51,7 @@ public class JoyCheck extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if(active)
+    if(command.isScheduled())
       command.cancel();
   }
 

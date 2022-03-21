@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import javax.naming.NoInitialContextException;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -20,7 +22,7 @@ import frc.robot.commands.JoyCheck;
 import frc.robot.commands.Outtake;
 //import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ToggleShooter;
-import frc.robot.commands.JoyCheck.JoyType;
+import frc.robot.Constants.JoyType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -115,6 +117,7 @@ public class RobotContainer {
     // shooter
     shooterMotor = new WPI_TalonFX(Constants.shooterFalconMotorID);
     shooterInsertMotorControllerGroup = new MotorControllerGroup(initializeTalonArray(Constants.shooterInsertMotorIDs));
+    shooterMotor.setInverted(true);
 
     // other
     navX = new AHRS(SerialPort.Port.kMXP); //could be: navX = new AHRS(SPI.Port.kMXP);
@@ -160,4 +163,49 @@ public class RobotContainer {
       }
       return controllers;
   }
+  public static void stealControls()
+  {
+    for (int i = 0; i < Constants.controllerIDs.length; i++)
+    {
+      if (stealDriveButton[i].get())
+      {
+        currentDriveControllerIndex = i;
+        System.out.println(i + " steals drive");
+      }
+      if (stealOtherButton[i].get())
+      {
+        currentOtherControllerIndex = i;
+        System.out.println(i + " steals other");
+      }
+    }
+  }
+  
+  public static void drive()
+  {
+    double fb = -1 * controllers[currentDriveControllerIndex].getRawAxis(Constants.driveFBAxisID) * Constants.driveLimitCoefficient;
+    double turn = controllers[currentDriveControllerIndex].getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient;
+    boolean fbFineTune = driveFBFineTuneButton[currentDriveControllerIndex].get();
+    boolean turnFineTune = driveTurnFineTuneButton[currentDriveControllerIndex].get();
+    if (fbFineTune)
+    {
+      fb *= Constants.fineFBTuneProportion;
+    } else if (Math.abs(fb) <= Constants.deadbandThreshold)
+    {
+      fb = 0;
+    }
+    if (turnFineTune)
+    {
+      turn *= Constants.fineTurnTuneProportion;
+    } else if (Math.abs(turn) <= Constants.deadbandThreshold)
+    {
+      turn = 0;
+    }
+
+    // System.out.println("fb: " + fbFineTune + "\nturn: " + turnFineTune + "\n____");
+
+    // displayData();
+
+    drive.arcadeDrive(fb, turn);
+  }
+
 }

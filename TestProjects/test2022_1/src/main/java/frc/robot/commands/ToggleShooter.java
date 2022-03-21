@@ -15,6 +15,7 @@ import frc.robot.RobotContainer;
 public class ToggleShooter extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -25,16 +26,18 @@ public class ToggleShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // RobotContainer.shooterMotor.set(ControlMode.Position, );
-    // controlmode.position is an enum
-    //RobotContainer.shooterMotor.set(ControlMode.MotionMagic);
-    RobotContainer.shooterMotor.set(ControlMode.Velocity, Constants.shooterTP100M);
+    //RobotContainer.shooterMotor.set(ControlMode.Velocity, Constants.shooterTP100M);
+    RobotContainer.shooterMotor.set(1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.shooterInsertMotorControllerGroup.set(Constants.insertVoltage);
+    if (Math.abs(RobotContainer.shooterMotor.getSelectedSensorVelocity() - Constants.shooterTP100M) < Constants.shotSpeedTolerance)
+    { 
+      RobotContainer.shooterInsertMotorControllerGroup.set(Constants.insertVoltage);
+
+    }
   }
 
   // Called once the command ends or is interrupted.

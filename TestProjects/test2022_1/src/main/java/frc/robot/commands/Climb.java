@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -27,16 +28,19 @@ public class Climb extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.climbMotor.set(ControlMode.Position, Constants.climbMotorPosition);
+    RobotContainer.climbMotor.set(ControlMode.Position, RobotContainer.climbMotor.getSelectedSensorPosition() - Constants.climbMotorPosition);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    RobotContainer.climbMotor.set(ControlMode.Position, RobotContainer.climbMotor.getSelectedSensorPosition() - Constants.climbMotorPosition / 2);
+  }
 
   // Returns true when the command should end.
   @Override

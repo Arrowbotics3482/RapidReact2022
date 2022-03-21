@@ -29,7 +29,10 @@ public final class Constants {                              // motors and their 
                             driveTurnAxisID = 1; // forward and turn axis IDs
     public static final double fineFBTuneProportion = 0.75,
                                fineTurnTuneProportion = 0.5;
-    
+    public enum JoyType
+    {
+        DRIVE, OTHER
+    }
 
     // drive constants
     public static final int[] leftDriveMotorIDs = {12, 20}, //  - left side
@@ -46,10 +49,10 @@ public final class Constants {                              // motors and their 
     
     // intake constants
     public static final int intakeMotorID = 59;
-    public static final double intakeMotorSpeed = 0.25; // -1, 1
+    public static final double intakeMotorSpeed = 0.4; // -1, 1
 
     // shooter constants
-    public static final int shooterFalconMotorID = 1; //2
+    public static final int shooterFalconMotorID = 1;
     
     public static final double shooterRPM = 10,
                                shooterTP100M = shooterRPM / 600 * 2048;
