@@ -49,7 +49,7 @@ public final class Constants {                              // motors and their 
     
     // intake constants
     public static final int intakeMotorID = 59;
-    public static final double intakeMotorSpeed = -0.4; // -1, 1
+    public static final double intakeMotorSpeed = 0.4; // -1, 1
 
     // shooter constants
     public static final int shooterFalconMotorID = 1;

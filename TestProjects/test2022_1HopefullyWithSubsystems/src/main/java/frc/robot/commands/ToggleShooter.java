@@ -27,7 +27,7 @@ public class ToggleShooter extends CommandBase {
   @Override
   public void initialize() {
     //RobotContainer.shooterMotor.set(ControlMode.Velocity, Constants.shooterTP100M);
-    RobotContainer.shooterMotor.set(0.8);
+    RobotContainer.shooterMotor.set(1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
