@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.JoyType;
+import frc.robot.subsystems.ControllerSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class JoyCheck extends CommandBase {
@@ -34,10 +36,10 @@ public class JoyCheck extends CommandBase {
     switch (joyType)
     {
       case DRIVE:
-        checkAgainst = RobotContainer.currentDriveControllerIndex;
+        checkAgainst = ControllerSubsystem.currentDriveControllerIndex;
         break;
       case OTHER:
-        checkAgainst = RobotContainer.currentOtherControllerIndex;
+        checkAgainst = ControllerSubsystem.currentOtherControllerIndex;
     }
     
     if(joyID == checkAgainst)

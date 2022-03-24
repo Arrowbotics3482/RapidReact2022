@@ -8,29 +8,34 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class Intake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private double time;
+  private final IntakeSubsystem intakeSubsystem;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Intake() {
+  public Intake(IntakeSubsystem intakeSubsystem) {
+    this.intakeSubsystem = intakeSubsystem;
+    addRequirements(this.intakeSubsystem);
     time = -1;
   }
 
-  public Intake(double time)
+  public Intake(IntakeSubsystem intakeSubsystem, double time)
   {
+    this(intakeSubsystem);
     this.time = time;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.intakeMotor.set(Constants.intakeMotorSpeed);
+    intakeSubsystem.getIntakeMotor().set(Constants.intakeMotorSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,7 +47,7 @@ public class Intake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.intakeMotor.set(0);
+    intakeSubsystem.getIntakeMotor().set(0);
   }
 
   // Returns true when the command should end.

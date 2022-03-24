@@ -7,28 +7,33 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.ClimbPosition;
+import frc.robot.subsystems.ClimbSubsystem;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class Climb extends CommandBase {
+public class ChangeClimbPosition extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-
+  private final ClimbSubsystem climbSubsystem;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Climb() {
+  public ChangeClimbPosition(ClimbSubsystem climbSubsystem) {
+    this.climbSubsystem = climbSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(this.climbSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.climbMotor.set(ControlMode.Position, RobotContainer.climbMotor.getSelectedSensorPosition() - Constants.climbMotorPosition);
+    climbSubsystem.getClimbMotor().set(ControlMode.Position, climbSubsystem.getClimbMotor().getSelectedSensorPosition() - Constants.climbMotorPosition);
+    climbSubsystem.setPosition(ClimbPosition.UP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,7 +44,8 @@ public class Climb extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.climbMotor.set(ControlMode.Position, RobotContainer.climbMotor.getSelectedSensorPosition() - Constants.climbMotorPosition / 2);
+    climbSubsystem.getClimbMotor().set(ControlMode.Position, climbSubsystem.getClimbMotor().getSelectedSensorPosition() - Constants.climbMotorPosition / 2);
+    climbSubsystem.setPosition(ClimbPosition.DOWN);
   }
 
   // Returns true when the command should end.

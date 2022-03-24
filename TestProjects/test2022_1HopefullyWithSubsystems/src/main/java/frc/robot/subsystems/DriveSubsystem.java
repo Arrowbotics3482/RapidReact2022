@@ -32,9 +32,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   public static void drive(){ 
     double fb = -1 * ControllerSubsystem.controllers[ControllerSubsystem.currentDriveControllerIndex].getRawAxis(Constants.driveFBAxisID) * Constants.driveLimitCoefficient;
-    double turn = ControllerSubsystem.controllers[Contro.currentDriveControllerIndex].getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient;
-    boolean fbFineTune = ControllerSubsystem.driveFBFineTuneButton[currentDriveControllerIndex].get();
-    boolean turnFineTune = ControllerSubsystem.driveTurnFineTuneButton[currentDriveControllerIndex].get();
+    double turn = ControllerSubsystem.controllers[ControllerSubsystem.currentDriveControllerIndex].getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient;
+    boolean fbFineTune = ControllerSubsystem.driveFBFineTuneButton[ControllerSubsystem.currentDriveControllerIndex].get();
+    boolean turnFineTune = ControllerSubsystem.driveTurnFineTuneButton[ControllerSubsystem.currentDriveControllerIndex].get();
     if (fbFineTune)
     {
       fb *= Constants.fineFBTuneProportion;
