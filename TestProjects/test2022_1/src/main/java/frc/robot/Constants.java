@@ -43,7 +43,7 @@ public final class Constants {                              // motors and their 
     public static final double deadbandThreshold = 0.1;
     
     // climb constants
-    public static final int climbFalconMotorID = 1;
+    public static final int climbFalconMotorID = 2;
     public static final double climbMotorSpeed = 1;
     public static final int climbMotorPosition = 1;
     
@@ -58,7 +58,7 @@ public final class Constants {                              // motors and their 
                                shooterTP100M = shooterRPM / 600 * 2048;
     public static final double shotSpeedTolerance = 200; // in ticks per 100 ms
     public static final double insertVoltage = 0.5; // between -1 and 1
-    public static final int[] shooterInsertMotorIDs = {5, 6};
+    public static final int[] shooterInsertMotorIDs = {5};
 
     // other constants
     public static final double wheelDistanceApart = 22.9; // inches

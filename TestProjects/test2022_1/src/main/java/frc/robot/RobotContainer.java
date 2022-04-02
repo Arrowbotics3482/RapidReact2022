@@ -139,7 +139,7 @@ public class RobotContainer {
       topOuttake[i].whileHeld(new JoyCheck(i, JoyType.OTHER, new Outtake()));
       bottomIntake[i].whileHeld(new JoyCheck(i, JoyType.OTHER, new Intake()));
       shooterButton[i].toggleWhenPressed(new JoyCheck(i, JoyType.OTHER, new ToggleShooter()));
-    }
+    } 
   }
 
   /**
