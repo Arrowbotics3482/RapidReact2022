@@ -2,7 +2,18 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 
+// camera imports
+import edu.wpi.first.cameraserver.CameraServer;
+ import edu.wpi.first.cscore.CvSink;
+ import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -15,6 +26,8 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   private static Timer timer = new Timer();
+
+  private Thread m_visionThread;
 
   @Override
   public void robotInit() {
