@@ -2,65 +2,64 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private final WPI_TalonFX shooterMotor; // the talonfxs have 2048 ticks per revolution, the velocity is reported in ticks per 0.1 seconds
-  private final MotorControllerGroup shooterInsertMotorControllerGroup;
-  private final PIDController controller; // shooter PID controller
-  private final Encoder shooterEncoder; // talon encoder
+  /** Declaration of Shooter and Transport Motors **/
+
+  // The TalonFXs have 2048 ticks per revolution, the velocity is reported in ticks per 0.1 seconds (100 milliseconds)
+  private final WPI_TalonFX shooterMotor;
+  private final WPI_TalonSRX transportMotor;
+
+  // Declaration of Encoder for SRX; Falcon Motors (FXs) have built-in encoders
+  private final Encoder shooterEncoder;
+
 
   public ShooterSubsystem() {
+    // Initializing Shooter and Transport Motors and Inverting Shooter
     shooterMotor = new WPI_TalonFX(Constants.shooterFalconMotorID);
-    shooterInsertMotorControllerGroup = new MotorControllerGroup(RobotContainer.initializeTalonArray(Constants.shooterInsertMotorIDs));;
     shooterMotor.setInverted(true);
-    controller = new PIDController(Constants.kp, Constants.ki, Constants.kd);
-    shooterEncoder = new Encoder(0, 1, false);
+    transportMotor = new WPI_TalonSRX(Constants.transportSRXID);
+
+    // Initializing Encoder
+    shooterEncoder = new Encoder(Constants.transportSRXEncoderIDS[0], Constants.transportSRXEncoderIDS[1], false);
   }
 
 
-
-  public PIDController getController() {
-    return this.controller;
-  }
-
-
-  public Encoder getShooterEncoder() {
-    return this.shooterEncoder;
-  }
-
-
-  public MotorControllerGroup getShooterInsertMotorControllerGroup() {
-    return this.shooterInsertMotorControllerGroup;
-  }
-
-
-  public PIDController getShooterPidController() {
-    return this.controller;
-  }
-
-  public WPI_TalonFX getShooterMotor() {
-    return this.shooterMotor;
-  }
-
-  public void runMotor(double value)
+  public void runShooterMotor(double value)
   {
     shooterMotor.set(ControlMode.Velocity, value);
   }
 
+
   @Override
   public void periodic() {
-    // controller.setIntegratorRange(); // 2 double parameters. restricts how much the integral can add to the position (or velocity??)
-    controller.calculate(shooterMotor.getSelectedSensorVelocity(), Constants.shooterSetpoint);
+    SmartDashboard.putNumber("Shooter Speed", shooterMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Transport Speed", transportMotor.getSelectedSensorVelocity());
   }
 
 
   @Override
   public void simulationPeriodic() {}
+
+  
+  /* Getter Methods */
+
+  public WPI_TalonFX getShooterMotor() {
+    return this.shooterMotor;
+  }
+
+  public WPI_TalonSRX getTransportMotor() {
+    return this.transportMotor;
+  }
+
+  public Encoder getShooterEncoder() {
+    return this.shooterEncoder;
+  }
+
 }

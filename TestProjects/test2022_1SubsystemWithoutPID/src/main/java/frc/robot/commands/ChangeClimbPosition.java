@@ -17,18 +17,20 @@ public class ChangeClimbPosition extends CommandBase {
     addRequirements(this.climbSubsystem);
   }
 
+  // Makes climb hook go upwards
   @Override
   public void initialize() {
-    climbSubsystem.getClimbMotor().set(ControlMode.Position, climbSubsystem.getClimbMotor().getSelectedSensorPosition() - Constants.climbMotorPosition);
+    climbSubsystem.getClimbMotor().set(ControlMode.Position, -1 * (Constants.climbMotorPosition - climbSubsystem.getClimbMotor().getSelectedSensorPosition()));
     climbSubsystem.setPosition(ClimbPosition.UP);
   }
 
   @Override
   public void execute() {}
 
+  // Makes climb hook go down to half height 
   @Override
   public void end(boolean interrupted) {
-    climbSubsystem.getClimbMotor().set(ControlMode.Position, climbSubsystem.getClimbMotor().getSelectedSensorPosition() - Constants.climbMotorPosition / 2);
+    climbSubsystem.getClimbMotor().set(ControlMode.Position, -1 * (Constants.climbMotorPosition / 2 - climbSubsystem.getClimbMotor().getSelectedSensorPosition()));
     climbSubsystem.setPosition(ClimbPosition.DOWN);
   }
 

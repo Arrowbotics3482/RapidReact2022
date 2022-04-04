@@ -10,12 +10,14 @@ public class JoyCheck extends CommandBase {
   private int joyID;
   private JoyType joyType;
   private Command command;
+
   public JoyCheck(int joyID, JoyType joyType, Command command) {
     this.joyID = joyID;
     this.joyType = joyType;
     this.command = command;
   }
 
+  // Checks if the joystick id given corresponds to the correct type given, schedules command if true
   @Override
   public void initialize() {
     int checkAgainst = -1;
@@ -36,6 +38,7 @@ public class JoyCheck extends CommandBase {
   @Override
   public void execute() {}
 
+  // Removes command from scheduler
   @Override
   public void end(boolean interrupted) {
     if(command.isScheduled())

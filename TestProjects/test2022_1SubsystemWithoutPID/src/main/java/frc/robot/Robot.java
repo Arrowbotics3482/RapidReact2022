@@ -36,8 +36,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    // Runs the Autonomous Command defined in RobotContainer's getAutonomousCommand() method.
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }  
@@ -65,14 +65,20 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+
+    // Begins timer for testing purposes.
     timer.start();
     timer.stop();
+    
+    // Calls method that displays data collected from the Nav-X (defined below).
     displayData();
   }
 
   @Override
   public void testPeriodic() {}
 
+
+  /** Method that displays data collected from the Nav-X. */
   private void displayData() {
     boolean zero_yaw_pressed = ControllerSubsystem.controllers[ControllerSubsystem.currentDriveControllerIndex].getTrigger();
     if (zero_yaw_pressed) {
@@ -143,19 +149,5 @@ public class Robot extends TimedRobot {
 
     /* Sensor Board Information */
     SmartDashboard.putString("FirmwareVersion", RobotContainer.navX.getFirmwareVersion());
-
-    /* Quaternion Data */
-    /* Quaternions are fascinating, and are the most compact representation of */
-    /* orientation data. All of the Yaw, Pitch and Roll Values can be derived */
-    /* from the Quaternions. If interested in motion processing, knowledge of */
-    /* Quaternions is highly recommended. */
-    SmartDashboard.putNumber("QuaternionW", RobotContainer.navX.getQuaternionW());
-    SmartDashboard.putNumber("QuaternionX", RobotContainer.navX.getQuaternionX());
-    SmartDashboard.putNumber("QuaternionY", RobotContainer.navX.getQuaternionY());
-    SmartDashboard.putNumber("QuaternionZ", RobotContainer.navX.getQuaternionZ());
-
-    /* Connectivity Debugging Support */
-    SmartDashboard.putNumber("IMU_Byte_Count", RobotContainer.navX.getByteCount());
-    SmartDashboard.putNumber("IMU_Update_Count", RobotContainer.navX.getUpdateCount());
   }
 }

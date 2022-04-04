@@ -15,11 +15,12 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {}
 
+  @Override
+  public void simulationPeriodic() {}
+
+  // Getter method
   public WPI_TalonSRX getIntakeMotor()
   {
     return intakeMotor;
   }
-
-  @Override
-  public void simulationPeriodic() {}
 }

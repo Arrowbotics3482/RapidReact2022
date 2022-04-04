@@ -21,9 +21,10 @@ public class Intake extends CommandBase {
     this.time = time;
   }
 
+  // Sets intake to voltage percentage defined in Constants
   @Override
   public void initialize() {
-    intakeSubsystem.getIntakeMotor().set(Constants.intakeMotorSpeed);
+    intakeSubsystem.getIntakeMotor().set(Constants.intakeMotorVoltage);
   }
 
   @Override
@@ -31,6 +32,7 @@ public class Intake extends CommandBase {
 
   }
 
+  // Turns intake motor off
   @Override
   public void end(boolean interrupted) {
     intakeSubsystem.getIntakeMotor().set(0);

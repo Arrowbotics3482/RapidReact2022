@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -14,7 +13,6 @@ public class ControllerSubsystem extends SubsystemBase {
   public static Joystick[] controllers;
     
   public static JoystickButton[] shooterButton,
-                                 transportButton,
                                  stealDriveButton,
                                  stealOtherButton,
                                  driveFBFineTuneButton,
@@ -25,7 +23,7 @@ public class ControllerSubsystem extends SubsystemBase {
   public static POVButton[] topOuttake,
                             bottomIntake;
   
-  
+  // creates arrays of each button and controller, initializes arrays
   public ControllerSubsystem() {
     int len = Constants.controllerIDs.length;
 
@@ -33,7 +31,6 @@ public class ControllerSubsystem extends SubsystemBase {
     topOuttake = new POVButton[len];
     bottomIntake = new POVButton[len];
     shooterButton = new JoystickButton[len];
-    transportButton = new JoystickButton[len];
     driveFBFineTuneButton = new JoystickButton[len];
     driveTurnFineTuneButton = new JoystickButton[len];
     stealDriveButton = new JoystickButton[len];
@@ -47,7 +44,6 @@ public class ControllerSubsystem extends SubsystemBase {
       topOuttake[i] = new POVButton(controllers[i], Constants.intakePOVAngles[0]);
       bottomIntake[i] = new POVButton(controllers[i], Constants.intakePOVAngles[1]);
       shooterButton[i] = new JoystickButton(controllers[i], Constants.shooterButtonID);
-      transportButton[i] = new JoystickButton(controllers[i], Constants.transportID);
       driveFBFineTuneButton[i] = new JoystickButton(controllers[i], Constants.driveFBFineTuneButtonID);
       driveTurnFineTuneButton[i] = new JoystickButton(controllers[i], Constants.driveTurnFineTuneButtonID);
       stealDriveButton[i] = new JoystickButton(controllers[i], Constants.stealDriveControlButtonID);
@@ -61,6 +57,7 @@ public class ControllerSubsystem extends SubsystemBase {
   @Override
   public void periodic() {}
 
+  // method to allow for stealing controls by changing array index value when button pressed
   public static void stealControls()
   {
     for (int i = 0; i < Constants.controllerIDs.length; i++)
@@ -68,12 +65,12 @@ public class ControllerSubsystem extends SubsystemBase {
       if (stealDriveButton[i].get())
       {
         currentDriveControllerIndex = i;
-        System.out.println(i + " steals alden");
+        System.out.println(i + " steals drive");
       }
       if (stealOtherButton[i].get())
       {
         currentOtherControllerIndex = i;
-        System.out.println(i + " steals alden");
+        System.out.println(i + " steals other");
       }
     }
   }

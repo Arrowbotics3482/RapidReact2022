@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,16 +24,16 @@ public class DriveSubsystem extends SubsystemBase {
   public static void drive(){ 
     double fb = -1 * ControllerSubsystem.controllers[ControllerSubsystem.currentDriveControllerIndex].getRawAxis(Constants.driveFBAxisID) * Constants.driveLimitCoefficient;
     double turn = ControllerSubsystem.controllers[ControllerSubsystem.currentDriveControllerIndex].getRawAxis(Constants.driveTurnAxisID) * Constants.driveLimitCoefficient;
-    boolean fbFineTune = ControllerSubsystem.driveFBFineTuneButton[ControllerSubsystem.currentDriveControllerIndex].get();
-    boolean turnFineTune = ControllerSubsystem.driveTurnFineTuneButton[ControllerSubsystem.currentDriveControllerIndex].get();
-    if (fbFineTune)
+    boolean fbFineTuneBool = ControllerSubsystem.driveFBFineTuneButton[ControllerSubsystem.currentDriveControllerIndex].get();
+    boolean turnFineTuneBool = ControllerSubsystem.driveTurnFineTuneButton[ControllerSubsystem.currentDriveControllerIndex].get();
+    if (fbFineTuneBool)
     {
       fb *= Constants.fineFBTuneProportion;
     } else if (Math.abs(fb) <= Constants.deadbandThreshold)
     {
       fb = 0;
     }
-    if (turnFineTune)
+    if (turnFineTuneBool)
     {
       turn *= Constants.fineTurnTuneProportion;
     } else if (Math.abs(turn) <= Constants.deadbandThreshold)
@@ -51,7 +50,5 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {}
-  public void stuff()
-  {
-  }
+
 }
