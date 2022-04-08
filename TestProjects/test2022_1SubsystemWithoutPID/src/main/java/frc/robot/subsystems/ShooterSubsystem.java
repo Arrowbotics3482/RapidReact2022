@@ -26,6 +26,10 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotor.setInverted(true);
     transportMotor = new WPI_TalonSRX(Constants.transportSRXID);
 
+    /*shooterMotor.configPeakOutputForward(1);
+    shooterMotor.configPeakOutputReverse(1);*/
+    shooterMotor.selectProfileSlot(0, 0);
+
     // Initializing Encoder
     shooterEncoder = new Encoder(Constants.transportSRXEncoderIDS[0], Constants.transportSRXEncoderIDS[1], false);
   }

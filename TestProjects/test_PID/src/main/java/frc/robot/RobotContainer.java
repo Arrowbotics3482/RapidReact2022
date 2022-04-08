@@ -15,6 +15,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -33,6 +34,8 @@ public class RobotContainer {
    public static WPI_TalonSRX talonSRX = new WPI_TalonSRX(5);
 
    public static WPI_TalonFX talonFX = new WPI_TalonFX(2);
+
+   public static Joystick joy = new Joystick(2);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

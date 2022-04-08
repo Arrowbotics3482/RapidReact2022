@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -18,18 +19,30 @@ public class ControllerSubsystem extends SubsystemBase {
                                  driveFBFineTuneButton,
                                  pidShooterButton,
                                  driveTurnFineTuneButton,
+                                 shooterBackButton,
                                  climbButton;
   
   public static POVButton[] topOuttake,
-                            bottomIntake;
+                            bottomIntake,
+                            transportIntakeTest,
+                            transportBackTest,
+                            climbUp,
+                            climbDown;
+
   
   // creates arrays of each button and controller, initializes arrays
   public ControllerSubsystem() {
+
     int len = Constants.controllerIDs.length;
 
     controllers = new Joystick[len];
     topOuttake = new POVButton[len];
     bottomIntake = new POVButton[len];
+    transportIntakeTest = new POVButton[len];
+    transportBackTest = new POVButton[len];
+    climbUp = new POVButton[len];
+    climbDown = new POVButton[len];
+    shooterBackButton = new JoystickButton[len];
     shooterButton = new JoystickButton[len];
     driveFBFineTuneButton = new JoystickButton[len];
     driveTurnFineTuneButton = new JoystickButton[len];
@@ -43,6 +56,11 @@ public class ControllerSubsystem extends SubsystemBase {
       controllers[i] = new Joystick(Constants.controllerIDs[i]);
       topOuttake[i] = new POVButton(controllers[i], Constants.intakePOVAngles[0]);
       bottomIntake[i] = new POVButton(controllers[i], Constants.intakePOVAngles[1]);
+      transportIntakeTest[i] = new POVButton(controllers[i], Constants.transportPOVAngles[0]);
+      transportBackTest[i] = new POVButton(controllers[i], Constants.transportPOVAngles[1]);
+      climbUp[i] = new POVButton(controllers[i], Constants.climbPOVAngles[0]);
+      climbDown[i] = new POVButton(controllers[i], Constants.climbPOVAngles[1]);
+      shooterBackButton[i] = new JoystickButton(controllers[i], Constants.shooterBackButtonID);
       shooterButton[i] = new JoystickButton(controllers[i], Constants.shooterButtonID);
       driveFBFineTuneButton[i] = new JoystickButton(controllers[i], Constants.driveFBFineTuneButtonID);
       driveTurnFineTuneButton[i] = new JoystickButton(controllers[i], Constants.driveTurnFineTuneButtonID);
