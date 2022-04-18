@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import java.util.ResourceBundle.Control;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,6 +16,8 @@ public class ClimbSubsystem extends SubsystemBase {
   private ClimbPosition position;
   private ControllerSubsystem controllerSubsystem;
   private double finalPosition;
+  private boolean triggerControl;
+  private boolean locked;
 
   private double maxLimit;
   
@@ -23,7 +26,11 @@ public class ClimbSubsystem extends SubsystemBase {
     position = ClimbPosition.DOWN;
     climbMotor.setSelectedSensorPosition(0);
     finalPosition = 0;
-    maxLimit = climbMotor.getSelectedSensorPosition() + Constants.climbMotorPosition;
+    maxLimit = climbMotor.getSelectedSensorPosition() + Constants.climbSpan;
+    
+    climbMotor.setNeutralMode(NeutralMode.Brake);
+    triggerControl = true;
+    locked = false;
   }
 
   // output climb position onto shuffleboard
@@ -38,11 +45,13 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void climb() {
-    double down = ControllerSubsystem.controllers[ControllerSubsystem.currentOtherControllerIndex].getRawAxis(Constants.climbDownTriggerID);
-    double up = ControllerSubsystem.controllers[ControllerSubsystem.currentOtherControllerIndex].getRawAxis(Constants.climbUpTriggerID);
+    if (triggerControl) {
+      double down = ControllerSubsystem.controllers[ControllerSubsystem.currentOtherControllerIndex].getRawAxis(Constants.climbDownTriggerID);
+      double up = ControllerSubsystem.controllers[ControllerSubsystem.currentOtherControllerIndex].getRawAxis(Constants.climbUpTriggerID);
 
-    double setClimbTo = (down > up ? down : up * -1) * 0.5;
-    setClimbWithinLimits(setClimbTo);
+      double setClimbTo = (down > up ? down : up * -1) * Constants.climbMotorSpeed;
+      setClimbWithinLimits(setClimbTo);
+    }
   }
 
   public void setClimbWithinLimits(double value)
@@ -50,12 +59,17 @@ public class ClimbSubsystem extends SubsystemBase {
     if (checkTriggerDeadband(value) && checkSafeMove(value))
     {
       climbMotor.set(value);
-      finalPosition = climbMotor.getSelectedSensorPosition();
-      // System.out.println("2");
     } else
     {
-      // climbMotor.set(ControlMode.Position, finalPosition);
       climbMotor.set(0);
+    }
+  }
+
+  public void moveClimbNoTrigger(double value)
+  {
+    if(!triggerControl)
+    {
+      climbMotor.set(value);
     }
   }
 
@@ -65,23 +79,30 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void lockClimbPosition() {
+    if(!locked)
+    {
+      locked = true;
+      setClimbLockPosition();
+    }
     climbMotor.set(ControlMode.Position, finalPosition);
+    triggerControl = false;
   }
 
   public void unlockClimbPosition() {
+    locked = false;
     climbMotor.set(0);
+    triggerControl = true;
   }
 
   public void resetInitClimbPos()
   {
     climbMotor.setSelectedSensorPosition(0);
-    maxLimit = climbMotor.getSelectedSensorPosition() + Constants.climbMotorPosition;
+    maxLimit = climbMotor.getSelectedSensorPosition() + Constants.climbSpan;
   }
 
   private boolean checkSafeMove(double value)
   {
     double position = climbMotor.getSelectedSensorPosition();
-    // System.out.println("3");
     return !((position > maxLimit && value > 0) || (position < 0 && value < 0));
   }
 
@@ -103,6 +124,11 @@ public class ClimbSubsystem extends SubsystemBase {
   public ClimbPosition getPosition()
   {
     return position;
+  }
+
+  public void setTriggerControl(boolean triggerControl)
+  {
+    this.triggerControl = triggerControl;
   }
 
   @Override

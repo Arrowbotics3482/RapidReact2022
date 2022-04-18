@@ -19,11 +19,14 @@ public class ToggleShooter extends CommandBase {
     this.shooterSubsystem = shooterSubsystem;
     switch (target)
     {
-      case LOWER:
-        shotSpeed = Constants.lowerHubShotSpeed;
+      case AUTONLOWER:
+        shotSpeed = Constants.autonLowerHubShotSpeed;
         break;
       case UPPER:
         shotSpeed = Constants.upperHubShotSpeed;
+        break;
+      case TELELOWER:
+        shotSpeed = Constants.teleLowerHubShotSpeed;
         break;
     }
     addRequirements(this.shooterSubsystem);
@@ -36,6 +39,7 @@ public class ToggleShooter extends CommandBase {
     setVoltage(2);
     // shooterSubsystem.runShooterMotor(Constants.shooterTP100M);
     //shooterSubsystem.getShooterMotor().set(0.5);
+    shooterSubsystem.setShooting(true);
   }
 
   // Checks if shooter motor speed has been significantly reduced due to contact with ball. If true, the transport motor stops.
@@ -48,12 +52,13 @@ public class ToggleShooter extends CommandBase {
     shooterSubsystem.getShooterMotor().setVoltage(voltage);
     //shooterSubsystem.getShooterMotor().set(ControlMode.Velocity, Constants.shooterTP100M * Constants.speedErrorRatio);
     System.out.println(shooterSubsystem.getShooterMotor().getSelectedSensorVelocity());
-    if ((shooterSubsystem.getShooterMotor().getSelectedSensorVelocity() > shotSpeed - Constants.shotSpeedRunTolerance) && (voltage > 0.1) && (voltage <= Constants.desiredVoltage)) {
+    if ((shooterSubsystem.getShooterMotor().getSelectedSensorVelocity() > shotSpeed - Constants.shotSpeedRunTolerance) && (voltage > 0.1)) {
       //voltage -= Constants.voltageIncrement / 200; 
       shooterSubsystem.getTransportMotor().setVoltage(Constants.insertVoltage);
     } /*else {
       voltage += Constants.voltageIncrement * ((Constants.desiredVoltage - voltage) / Constants.desiredVoltage);
     }*/
+
     voltage += Constants.voltageIncrement * (shotSpeed - shooterSubsystem.getShooterMotor().getSelectedSensorVelocity()) / shotSpeed;
   }
 
@@ -62,6 +67,7 @@ public class ToggleShooter extends CommandBase {
   public void end(boolean interrupted) {
     shooterSubsystem.getTransportMotor().set(0);
     shooterSubsystem.getShooterMotor().set(0);
+    shooterSubsystem.setShooting(false);
   }
 
   protected void setVoltage(double voltage) {

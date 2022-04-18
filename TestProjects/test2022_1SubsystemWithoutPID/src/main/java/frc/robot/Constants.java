@@ -18,7 +18,7 @@ public final class Constants {
     public static final int[] intakePOVAngles = {0, 180};
     public static final int[] transportPOVAngles = {90, 270};
     public static final int[] climbPOVAngles = {45, 225};
-    //public static final int transportButtonID = 3;
+    public static final int LowerShooterButtonID = 3;
     public static final int shooterBackButtonID = 2;
 
     // Forward and Turn Axis IDs
@@ -39,25 +39,27 @@ public final class Constants {
                               rightDriveMotorIDs = {7, 9};  //  Right Side
     public static final boolean[] leftDriveMotorInverts = {false, false},
                                   rightDriveMotorInverts = {false, false};
-    public static final double driveLimitCoefficient = 0.7; // Between -1 and 1
+    public static final double driveLimitCoefficient = 0.8; // Between -1 and 1
     public static final double deadbandThreshold = 0.1;
+    public static final double cancelCorrectionThreshold = 0.2;
 
     public static final double forwardIncorrectionValue = 0.2;
     public static final double backwardIncorrectionValue = -0.23;
-    public static final double driveVoltageError = 1.15;
+    public static final double driveVoltageError = 0.95;
 
     public static final double expectedMaxVolts = 12.5;
     
     // Climb Constants
     public static final int climbFalconMotorID = 2;
     public static final double climbMotorSpeed = 1;
-    public static final int climbMotorPosition = 400000;
+    public static final int climbSpan = 1250000; 
+    public static final int withinHeightLimitClimbSpan = 770000;
     public static final double triggerDeadband = 0.2;
     
     public static final int climbUpTriggerID = 2;
     public static final int climbDownTriggerID = 3;
     
-    public static final double climbMotorTestSpeed = 0.5;
+    public static final double climbMotorTestSpeed = 1;
 
     public enum ClimbPosition
     {
@@ -71,7 +73,7 @@ public final class Constants {
 
     // Intake Constants
     public static final int intakeMotorID = 59;
-    public static final double intakeMotorVoltage = 0.4; // Between -1 and 1
+    public static final double intakeMotorPercent = 0.55; // Between -1 and 1
 
     public enum IntakeDirection
     {
@@ -87,11 +89,12 @@ public final class Constants {
 
     public enum ShotTarget
     {
-        LOWER, UPPER
+        AUTONLOWER, UPPER, TELELOWER
     }
 
-    public static final int lowerHubShotSpeed = 2000,
-                            upperHubShotSpeed = 4750;
+    public static final int autonLowerHubShotSpeed = 7000, // 5500, 1850
+                            upperHubShotSpeed = 17000, // 4750
+                            teleLowerHubShotSpeed = 7000; // 6000, 2000 
 
     // Values used to correct for error of Falcon motor
     public static final int shooterMaxSpeed = 22000;
@@ -101,6 +104,16 @@ public final class Constants {
     {
         OUT, IN
     }
+
+
+    /** Autonomous Constants */ 
+    public static final double timeBackwards = 3.8;
+    public static final double speedBackwards = -0.25;
+    public static final double timeTurning = timeBackwards + 0.5;
+    public static final double speedTurn = 0.1;
+    public static final double[] timeShooter = {timeTurning + 2.0, timeTurning + 2.0 + 2.0};
+
+
     
 
     /*

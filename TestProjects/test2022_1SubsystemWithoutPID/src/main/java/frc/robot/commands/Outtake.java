@@ -17,7 +17,7 @@ public class Outtake extends CommandBase {
   // Sets intake to voltage percentage defined in Constants (reversed because we want the opposite direction)
   @Override
   public void initialize() {
-    intakeSubsystem.getIntakeMotor().set(-1 * Constants.intakeMotorVoltage);
+    intakeSubsystem.getIntakeMotor().set(-1 * Constants.intakeMotorPercent);
   }
 
   @Override

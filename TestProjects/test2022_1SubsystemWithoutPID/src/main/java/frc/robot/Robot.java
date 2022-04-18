@@ -1,28 +1,20 @@
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
-
-// 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
 
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.highgui.HighGui;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.ClimbTest;
 import frc.robot.subsystems.ControllerSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 
@@ -32,35 +24,17 @@ public class Robot extends TimedRobot {
 
   private static Timer timer = new Timer();
 
-  private static double time = 0;
-
   private Thread m_visionThread;
-  // private Thread appleThread;
-
-  private static double maxVelocityX = 0;
-  private static double maxVelocityY = 0;
-  private static double sumVelocityX = 0;
-  private static double sumVelocityY = 0;
-  private static int count = 1;
-
-  private static double maxYaw = 0;
-  private static double totalYaw = 0;
-
-  // private static Mat mat = null;
-
+ 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    // apple();
     createCamera();
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-
-    // Calls method that displays data collected from the Nav-X (defined below).
-
   }
 
   @Override
@@ -111,25 +85,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testPeriodic() {
-  }
-
-  // private void apple() {
-  //   appleThread = new Thread(
-  //     () -> {
-  //     Mat src = Imgcodecs.imread("apple.png");
-  //     Point start = new Point(150, 200);
-  //     Point end = new Point(450, 200);
-  //     Scalar color = new Scalar(64, 64, 64);
-  //     int thickness = 10;
-  //     Imgproc.line(src, start, end, color, thickness);
-  //     HighGui.imshow("Drawing a line", src);
-  //     HighGui.waitKey();
-  //     }
-  //   );
-  //   appleThread.setDaemon(true);
-  //   appleThread.start();
-  // }
+  public void testPeriodic() {}
 
   /** Creates Camera, called in robotInit() */
   private void createCamera() {

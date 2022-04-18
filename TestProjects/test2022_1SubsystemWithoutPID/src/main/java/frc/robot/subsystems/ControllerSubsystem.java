@@ -20,6 +20,7 @@ public class ControllerSubsystem extends SubsystemBase {
                                  pidShooterButton,
                                  driveTurnFineTuneButton,
                                  shooterBackButton,
+                                 bottomShooterButton,
                                  climbButton;
   
   public static POVButton[] topOuttake,
@@ -50,6 +51,7 @@ public class ControllerSubsystem extends SubsystemBase {
     stealOtherButton = new JoystickButton[len];
     pidShooterButton = new JoystickButton[len];
     climbButton = new JoystickButton[len];
+    bottomShooterButton = new JoystickButton[len];
 
     for (int i = 0; i < len; i++)
     {
@@ -68,6 +70,7 @@ public class ControllerSubsystem extends SubsystemBase {
       stealOtherButton[i] = new JoystickButton(controllers[i], Constants.stealOtherControlButtonID);
       pidShooterButton[i] = new JoystickButton(controllers[i], Constants.shooterButtonID);
       climbButton[i] = new JoystickButton(controllers[i], Constants.climbButtonID);
+      bottomShooterButton[i] = new JoystickButton(controllers[i], Constants.LowerShooterButtonID);
     }
 
   }

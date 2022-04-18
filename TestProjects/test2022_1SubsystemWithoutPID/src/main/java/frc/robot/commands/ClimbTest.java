@@ -20,19 +20,20 @@ public class ClimbTest extends CommandBase {
   // Makes climb hook go upwards
   @Override
   public void initialize() {
-    climbSubsystem.getClimbMotor().set(Constants.climbMotorTestSpeed * (direction == ClimbDirection.UP ? 1 : -1));
+    climbSubsystem.setTriggerControl(false);
   }
 
   @Override
   public void execute() {
-    
-    climbSubsystem.getClimbMotor().set(Constants.climbMotorTestSpeed * (direction == ClimbDirection.UP ? 1 : -1));
+    double set = Constants.climbMotorTestSpeed * (direction == ClimbDirection.UP ? 1 : -1);
+    climbSubsystem.moveClimbNoTrigger(set);
   }
 
   @Override
   public void end(boolean interrupted) {
-    climbSubsystem.getClimbMotor().set(0);
+    climbSubsystem.moveClimbNoTrigger(0);
     climbSubsystem.resetInitClimbPos();
+    climbSubsystem.setTriggerControl(true);
   }
 
   @Override

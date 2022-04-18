@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -19,6 +20,8 @@ public class ShooterSubsystem extends SubsystemBase {
   // Declaration of Encoder for SRX; Falcon Motors (FXs) have built-in encoders
   private final Encoder shooterEncoder;
 
+  private boolean isShooting;
+
 
   public ShooterSubsystem() {
     // Initializing Shooter and Transport Motors and Inverting Shooter
@@ -32,6 +35,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Initializing Encoder
     shooterEncoder = new Encoder(Constants.transportSRXEncoderIDS[0], Constants.transportSRXEncoderIDS[1], false);
+    shooterMotor.setNeutralMode(NeutralMode.Coast);
+    isShooting = false;
   }
 
 
@@ -45,6 +50,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Shooter Speed", shooterMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Transport Speed", transportMotor.getSelectedSensorVelocity());
+    SmartDashboard.putBoolean("Shooting", isShooting);
+    
   }
 
 
@@ -64,6 +71,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public Encoder getShooterEncoder() {
     return this.shooterEncoder;
+  }
+
+  public void setShooting(boolean isShooting)
+  {
+    this.isShooting = isShooting;
   }
 
 }

@@ -3,30 +3,22 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.Constants.ShotTarget;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutonomousShooter extends CommandBase {
-  private ShotTarget target;
+public class AutonomousMoveBack extends CommandBase {
   private DriveSubsystem driveSubsystem;
   private IntakeSubsystem intakeSubsystem;
-  private ShooterSubsystem shooterSubsystem;
   private Timer timer;
-  private ToggleShooter shooterCommand;
-
+  
   private double driveVolts,
                  intakePercent;
   private boolean turnDrive;
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  public AutonomousShooter(ShooterSubsystem shooterSubsystem, ShotTarget target, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
-    this.shooterSubsystem = shooterSubsystem;
-    this.target = target;
+  public AutonomousMoveBack(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
     this.driveSubsystem = driveSubsystem;
     this.intakeSubsystem = intakeSubsystem;
-    shooterCommand = new ToggleShooter(shooterSubsystem, target);
     timer = new Timer();
   }
 
@@ -52,28 +44,14 @@ public class AutonomousShooter extends CommandBase {
     if(timer.get() < Constants.timeBackwards)
     {
       driveVolts = Constants.speedBackwards * Constants.expectedMaxVolts;
-      intakePercent = Constants.intakeMotorPercent;
+      intakePercent = Constants.intakeMotorPercent / 2;
     } else if (timer.get() < Constants.timeTurning)
     {
       turnDrive = true;
       System.out.println(turnDrive);
-    } else if(timer.get() < Constants.timeShooter[0] && !shooterCommand.isScheduled())
-    {
-      shooterCommand.schedule();
-    } else if(timer.get() > Constants.timeShooter[1] && shooterCommand.isScheduled())
-    { 
-      shooterCommand.cancel();
     }
-
-
-    if(turnDrive)
-    {
-      driveSubsystem.drive(0, Constants.speedTurn);
-    }
-    else
-    {
-      driveSubsystem.driveVoltsCorrectDrift(driveVolts);
-    }
+  
+    driveSubsystem.driveVoltsCorrectDrift(driveVolts);
     intakeSubsystem.getIntakeMotor().set(intakePercent);
   }
 

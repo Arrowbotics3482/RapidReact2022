@@ -26,7 +26,7 @@ public class MoveIntake extends CommandBase {
   // Sets intake to voltage percentage defined in Constants
   @Override
   public void initialize() {
-    intakeSubsystem.getIntakeMotor().set(Constants.intakeMotorVoltage * (direction == IntakeDirection.IN ? 1 : -1));
+    intakeSubsystem.getIntakeMotor().set(Constants.intakeMotorPercent * (direction == IntakeDirection.IN ? 1 : -1));
   }
 
   @Override

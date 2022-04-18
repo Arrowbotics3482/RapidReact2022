@@ -1,10 +1,12 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import frc.robot.commands.AutonomousLowerHub;
 import frc.robot.commands.AutonomousShooter;
-import frc.robot.commands.ChangeClimbPosition;
 import frc.robot.commands.ClimbTest;
 import frc.robot.commands.MoveIntake;
 import frc.robot.commands.JoyCheck;
@@ -34,18 +36,20 @@ public class RobotContainer {
   public static ClimbSubsystem climbSubsystem = new ClimbSubsystem(controllerSubsystem);
 
   // The robot's commands are defined here.
-  private final AutonomousShooter autonShooterCommand = new AutonomousShooter(shooterSubsystem, Constants.ShotTarget.UPPER, driveSubsystem, intakeSubsystem); 
+  // private final AutonomousShooter autonShooterCommand = new AutonomousShooter(shooterSubsystem, Constants.ShotTarget.UPPER, driveSubsystem, intakeSubsystem); 
+  private final AutonomousLowerHub autonomousLowerHub = new AutonomousLowerHub(shooterSubsystem, Constants.ShotTarget.AUTONLOWER, driveSubsystem, intakeSubsystem);
   
   // Other definitions
-  public static AHRS navX;
+  private static WPI_TalonSRX[] controllers;
+  // public static AHRS navX;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    navX = new AHRS(SerialPort.Port.kMXP); // Could be: navX = new AHRS(SPI.Port.kMXP);
+    // navX = new AHRS(SerialPort.Port.kMXP); // Could be: navX = new AHRS(SPI.Port.kMXP);
     // To enable data output
-    navX.enableLogging(true);
+    // navX.enableLogging(true);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -64,6 +68,7 @@ public class RobotContainer {
       ControllerSubsystem.shooterBackButton[i].whileHeld(new JoyCheck(i, JoyType.OTHER, new ShooterBack(shooterSubsystem)));
       ControllerSubsystem.climbUp[i].whileHeld(new JoyCheck(i, JoyType.OTHER, new ClimbTest(climbSubsystem, ClimbDirection.UP)));
       ControllerSubsystem.climbDown[i].whileHeld(new JoyCheck(i, JoyType.OTHER, new ClimbTest(climbSubsystem, ClimbDirection.DOWN)));
+      ControllerSubsystem.bottomShooterButton[i].toggleWhenPressed(new JoyCheck(i, JoyType.OTHER, new ToggleShooter(shooterSubsystem, Constants.ShotTarget.TELELOWER)));
     }
     
   }
@@ -71,7 +76,8 @@ public class RobotContainer {
   /** This method supplies a Command to run during autonomousInit() */
   public Command getAutonomousCommand() {
     // Supply ToggleShooter Command to run during Autonomous
-    return autonShooterCommand;
+    // return autonShooterCommand;
+    return autonomousLowerHub;
   }
 
   /** Method to initialize and return an array of WPI_TalonSRXs (MotorControllers) given an array of device IDs, for initialization of a MotorControllerGroup */
@@ -83,6 +89,24 @@ public class RobotContainer {
           controllers[i] = new WPI_TalonSRX(deviceIDs[i]);
       }
       return controllers;
+  }
+
+  /** Method to initialize and return an array of WPI_TalonSRXs (MotorControllers) given an array of device IDs, for initialization of a MotorControllerGroup */
+  public static WPI_TalonSRX[] initializeTalonArrayBrake(int[] deviceIDs)
+  {
+      controllers = new WPI_TalonSRX[deviceIDs.length];
+      for (int i = 0; i < deviceIDs.length; i++)
+      {
+          controllers[i] = new WPI_TalonSRX(deviceIDs[i]);
+          controllers[i].setNeutralMode(NeutralMode.Coast);
+      }
+      return controllers;
+  }
+
+  public static void setControllersBrake() {
+    for (int i = 0; i < controllers.length; i++) {
+      controllers[i].setNeutralMode(NeutralMode.Brake);
+    }
   }
 
 }
